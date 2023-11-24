@@ -2,13 +2,16 @@ import GoogleIcon from "@mui/icons-material/Google";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 import { Button, Container, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 const OtherSignin = () => {
   const { signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
   const handleGoogle = () => {
     signInWithGoogle()
       .then((res) => {
         if (res.user) {
           toast.success("create account successful");
+          navigate("/")
         }
       })
       .catch((error) => {

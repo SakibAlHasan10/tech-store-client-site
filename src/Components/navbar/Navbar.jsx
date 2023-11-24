@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 import { Grid } from "@mui/material";
 const pages = ["Home", "Products"];
-const settings = ["User name", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -51,6 +51,7 @@ function Navbar() {
   };
   window.addEventListener("scroll", changeNavColor);
   // console.log(colorChange)
+  console.log(user?.photoURL);
   return (
     <AppBar
       position="fixed"
@@ -226,19 +227,20 @@ function Navbar() {
           </Box>
           {user?.email ? (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title="Open Dashboard">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={user?.photoURL} src={user?.photoURL}/>
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: "48px",pl:"4px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
                   horizontal: "right",
                 }}
+                
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
@@ -247,12 +249,15 @@ function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                <Typography sx={{ color: "#023047" }} textAlign="left">
+                      {user?.displayName}
+                    </Typography>
                 {settings.map((setting) => (
                   <MenuItem
                     key={setting}
                     onClick={() => handleCloseUserMenu(setting)}
                   >
-                    <Typography sx={{ color: "#023047" }} textAlign="center">
+                    <Typography sx={{ color: "#023047" }} textAlign="left">
                       {setting}
                     </Typography>
                   </MenuItem>

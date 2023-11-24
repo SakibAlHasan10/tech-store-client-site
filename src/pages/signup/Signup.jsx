@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
 import OtherSignin from "../../shear/otherSignin/OtherSignin";
+import { updateProfile } from "firebase/auth";
 
 const Signup = () => {
   const { signUpWithEmail } = useAuth();
@@ -31,8 +32,8 @@ const Signup = () => {
         {...props}
       >
         {"Copyright © "}
-        <Link color="inherit" href="https://mui.com/">
-          Booking
+        <Link color="inherit" href="/">
+          ProductHunt
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}
@@ -77,15 +78,22 @@ const Signup = () => {
     signUpWithEmail(email, password)
       .then((res) => {
         if (res.user) {
-          axios
-            .post("https://travel-zoo-server.vercel.app/users", user)
-            .then((res) => {
-              if (res.data.insertedId) {
-                toast.success("your sign up successful");
-                navigate("/");
-              }
-            });
-          console.log(res.user);
+          updateProfile(res.user, {
+            displayName:fullName, photoURL: photo
+          }).then(()=>{
+            alert('update user')
+          }).catch(error=>{
+            error&& alert('error update user')
+          })
+          // axios
+          //   .post("https://travel-zoo-server.vercel.app/users", user)
+          //   .then((res) => {
+          //     if (res.data.insertedId) {
+          //       toast.success("your sign up successful");
+          //       navigate("/");
+          //     }
+          //   });
+          console.log(res.user?.displayName);
         }
       })
       .catch((error) => {
