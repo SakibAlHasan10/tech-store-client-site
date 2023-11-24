@@ -15,8 +15,30 @@ import { NavLink } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 import { Grid } from "@mui/material";
-const pages = ["Home", "Products"];
-const settings = ["Dashboard", "Logout"];
+const pages = (
+  <>
+    <NavLink
+      to={`/`}
+      className={({ isActive, isPending }) =>
+        isActive
+          ? "active text-orange-500 border-b-2 border-orange-500 pb-1"
+          : isPending
+          ? "pending"
+          : ""
+      }
+    >
+      Home
+    </NavLink>
+    <NavLink
+      to={`/products`}
+      className={({ isActive, isPending }) =>
+        isActive ? "active text-orange-500" : isPending ? "pending" : ""
+      }
+    >
+      Products
+    </NavLink>
+  </>
+);
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -37,17 +59,17 @@ function Navbar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (e) => {
-    setAnchorElNav(e);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (e) => {
-    if (e === "Logout") {
-      logout().then(() => {
-        toast.success("sign out successfully");
-      });
-    }
+  const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleLogout = () => {
+    logout().then(() => {
+      toast.success("sign out successfully");
+    });
   };
   window.addEventListener("scroll", changeNavColor);
   // console.log(colorChange)
@@ -55,10 +77,60 @@ function Navbar() {
   return (
     <AppBar
       position="fixed"
-      sx={{ bgcolor:`${colorChange? "#023047":"#fff0"}`, boxShadow: "none", color: "#023047" }}
+      sx={{
+        bgcolor: `${colorChange ? "#023047" : "#fff0"}`,
+        boxShadow: "none",
+        color: "#023047",
+      }}
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon
+                sx={{ display: { xs: "flex", md: "none", color: "#fff" } }}
+              />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <MenuItem onClick={() => handleCloseNavMenu()}>
+                <Typography
+                  display={"flex"}
+                  flexDirection={"column"}
+                  gap={"25px"}
+                  sx={{ color: "#023047" }}
+                  textAlign="center"
+                >
+                  {pages}
+                </Typography>
+              </MenuItem>
+              {/* // ))} */}
+            </Menu>
+          </Box>
+
           <Grid
             container
             component="a"
@@ -98,7 +170,7 @@ function Navbar() {
                   sx={{
                     fontFamily: "monospace",
                     fontWeight: 800,
-                    color: `${colorChange? "#fff":"#023047"}`,
+                    color: `${colorChange ? "#fff" : "#023047"}`,
                     textDecoration: "none",
                   }}
                 >
@@ -122,125 +194,29 @@ function Navbar() {
               </Grid>
             </Grid>
           </Grid>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography sx={{color:`${colorChange? "#fff":"#023047"}`}}   textAlign="center">
-                    <NavLink
-                      to={`/${page}`}
-                      className={({ isActive, isPending }) =>
-                        isActive
-                          ? "active text-orange-500"
-                          : isPending
-                          ? "pending"
-                          : ""
-                      }
-                    >
-                      {page}
-                    </NavLink>
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-          {/* <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            color={"#0a5299"}
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontSize: { xs: "24px" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              textDecoration: "none",
-            }}
+          <Box
+            mr={"30px"}
+            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
           >
-            Booking
-          </Typography> */}
-          {/* <Box
-            component="img"
-            sx={{
-              // height: 233,
-              // width: 350,
-              maxHeight: { xs: 233, md: 167 },
-              maxWidth: { xs: 350, md: 250 },
-            }}
-            alt="The house from the offer."
-            src={logo}
-          /> */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <NavLink
-                key={page}
-                to={`/${page}`}
-                className={({ isActive, isPending }) =>
-                  isActive
-                    ? "active text-orange-500"
-                    : isPending
-                    ? "pending"
-                    : ""
-                }
-              >
-                <Button
-                  key={page}
-                  onClick={() => handleCloseNavMenu(page)}
-                  sx={{ my: 2, color: `${colorChange? "#fff":"#023047"}`, display: "block" }}
-                >
-                  {page}
-                </Button>
-              </NavLink>
-            ))}
+            <Typography display={"flex"} gap={"25px"} sx={{ color: "#fff" }}>
+              {pages}
+            </Typography>
           </Box>
           {user?.email ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open Dashboard">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={user?.photoURL} src={user?.photoURL}/>
+                  <Avatar alt={user?.photoURL} src={user?.photoURL} />
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: "48px",pl:"4px" }}
+                sx={{ mt: "48px", pl: "4px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
                   horizontal: "right",
                 }}
-                
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
@@ -250,18 +226,32 @@ function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 <Typography sx={{ color: "#023047" }} textAlign="left">
-                      {user?.displayName}
-                    </Typography>
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => handleCloseUserMenu(setting)}
+                  {user?.displayName}
+                </Typography>
+                <NavLink
+                  to={`/dashboard`}
+                  className={({ isActive, isPending }) =>
+                    isActive
+                      ? "active text-orange-500"
+                      : isPending
+                      ? "pending"
+                      : ""
+                  }
+                >
+                  <Button
+                    onClick={handleCloseUserMenu}
+                    sx={{
+                      my: 2,
+                      color: "#023047",
+                      display: "block",
+                    }}
                   >
-                    <Typography sx={{ color: "#023047" }} textAlign="left">
-                      {setting}
-                    </Typography>
-                  </MenuItem>
-                ))}
+                    Dashboard
+                  </Button>
+                </NavLink>
+                <Button onClick={handleLogout} sx={{ color: "#023047" }}>
+                  Logout
+                </Button>
               </Menu>
             </Box>
           ) : (

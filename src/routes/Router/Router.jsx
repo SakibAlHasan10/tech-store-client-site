@@ -4,6 +4,9 @@ import Signup from "../../pages/signup/Signup";
 import Roots from "../../layout/roots/Roots";
 import Home from "../../pages/home/Home";
 import Dashboard from "../../layout/dashboard/Dashboard";
+import MyProfile from "../../pages/Dashboard/User/MyProfile";
+import AddProduct from "../../pages/Dashboard/User/addProduct/AddProduct";
+import MyProducts from "../../layout/dashboard/User/myProducts/MyProducts";
 
 const router = createBrowserRouter([
     {
@@ -27,7 +30,22 @@ const router = createBrowserRouter([
     },
     {
         path:"/dashboard",
-        element:<Dashboard/>
+        element:<Dashboard/>,
+        children:[
+            // user route
+            {
+                path:"my-profile",
+                element:<MyProfile/>
+            },
+            {
+                path:"add-product",
+                element:<AddProduct/>
+            },
+            {
+                path:"my-products",
+                element:<MyProducts/>
+            }
+        ]
     }
 ])
 
