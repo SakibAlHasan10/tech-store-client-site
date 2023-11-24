@@ -54,7 +54,7 @@ function Navbar() {
   return (
     <AppBar
       position="fixed"
-      sx={{ bgcolor: "#fff", boxShadow: "none", color: "#023047" }}
+      sx={{ bgcolor:`${colorChange? "#023047":"#fff0"}`, boxShadow: "none", color: "#023047" }}
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
@@ -97,7 +97,7 @@ function Navbar() {
                   sx={{
                     fontFamily: "monospace",
                     fontWeight: 800,
-                    color: "#023047",
+                    color: `${colorChange? "#fff":"#023047"}`,
                     textDecoration: "none",
                   }}
                 >
@@ -153,7 +153,7 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography color="#023047" textAlign="center">
+                  <Typography sx={{color:`${colorChange? "#fff":"#023047"}`}}   textAlign="center">
                     <NavLink
                       to={`/${page}`}
                       className={({ isActive, isPending }) =>
@@ -217,7 +217,7 @@ function Navbar() {
                 <Button
                   key={page}
                   onClick={() => handleCloseNavMenu(page)}
-                  sx={{ my: 2, color: "#023047", display: "block" }}
+                  sx={{ my: 2, color: `${colorChange? "#fff":"#023047"}`, display: "block" }}
                 >
                   {page}
                 </Button>
