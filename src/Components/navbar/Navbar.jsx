@@ -13,8 +13,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 // import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
-// import useAuth from "../../hooks/CustomApi/useAuth";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/authHook/useAuth";
 // import { useScrollTrigger } from "@mui/material";
 
 const pages = ["Rooms", "My Bookings", "Gallery", "Contact Us"];
@@ -56,7 +56,7 @@ function Navbar() {
             noWrap
             component="a"
             href="/"
-            fontSize={{sx:'20px'}}
+            fontSize={{ sx: "20px" }}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -129,7 +129,7 @@ function Navbar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontSize:{xs:"24px"},
+              fontSize: { xs: "24px" },
               fontFamily: "monospace",
               fontWeight: 700,
               textDecoration: "none",
