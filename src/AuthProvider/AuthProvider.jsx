@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
           });
       } else {
         axios
-          .post("", loggedUser, {
+          .post("https://travel-zoo-server.vercel.app/logout", loggedUser, {
             withCredentials: true,
           })
           .then(() => {
