@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-// import Avatar from "@mui/material/Avatar";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,8 +17,8 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 // import { useScrollTrigger } from "@mui/material";
 
-const pages = ["Rooms", "My Bookings", "Gallery", "Contact Us"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Home", "Products"];
+const settings = ["User name", "Dashboard", "Logout"];
 
 function Navbar() {
   // const sss = useScrollTrigger()
@@ -163,10 +163,9 @@ function Navbar() {
           {user?.email ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{}}>
-                  {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                  <p className="px-4 text-base">{user?.email}</p>
-                </IconButton>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}

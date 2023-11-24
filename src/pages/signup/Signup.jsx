@@ -14,9 +14,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-// import SocialLogin from "../../components/SocialLogin/SocialLogin";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
+import OtherSignin from "../../shear/otherSignin/OtherSignin";
 
 const Signup = () => {
   const { signUpWithEmail } = useAuth();
@@ -48,15 +48,17 @@ const Signup = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const firstName = data.get("firstName");
-    const lastName = data.get("lastName");
+    const fullName = data.get("fullName");
     const email = data.get("email");
+    const photo = data.get("photoURL");
     const password = data.get("password");
     const user = {
-      name: firstName + " " + lastName,
+      name: fullName,
       email,
+      photo,
       password,
     };
+    console.log(user);
     setErrorText("");
     if (password.length < 6) {
       setErrorText("Your password must be at least 6 characters");
@@ -116,27 +118,18 @@ const Signup = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="fullName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="fullName"
+                  label="Name"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -145,6 +138,16 @@ const Signup = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="photoURL"
+                  label="Photo URL"
+                  name="photoURL"
+                  autoComplete="photoURL"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -178,7 +181,7 @@ const Signup = () => {
             </Button>
           </Box>
         </Box>
-        {/* <SocialLogin /> */}
+        <OtherSignin />
         <Grid container justifyContent="flex-end">
           <Grid item>
             <Link href="/login" variant="body2">

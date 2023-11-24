@@ -5,8 +5,11 @@ import Footer from "../../Components/Footer/Footer";
 const Roots = () => {
     return (
         <div>
+            <div className="min-h-screen">
+
             <Navbar/>
             <Outlet/>
+            </div>
             <Footer/>
         </div>
     );
