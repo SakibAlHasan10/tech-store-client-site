@@ -1,7 +1,7 @@
 import GoogleIcon from "@mui/icons-material/Google";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
-import { Button, Divider, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 const OtherSignin = () => {
   const { signInWithGoogle } = useAuth();
   const handleGoogle = () => {
@@ -16,13 +16,12 @@ const OtherSignin = () => {
       });
   };
   return (
-    <div className="flex flex-col items-center text-center">
-      <Divider variant="middle" />
+    <Container>
+      {/* <Divider variant="middle" mt={3}/> */}
       <Grid container justifyContent="flex-center">
-
-      <Typography component="h6" variant="h6" textAlign={'center'}>
-        or
-      </Typography>
+        <Typography component="h6" variant="h6" textAlign="center">
+          or
+        </Typography>
       </Grid>
       <Grid container justifyContent="flex-center">
         <Grid item xs={12}>
@@ -32,12 +31,14 @@ const OtherSignin = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            <GoogleIcon className="text-orange-500 text-3xl bg-white" />
-            <span>Continue with google</span>
+            <GoogleIcon color="warning" />
+            <Typography component="h6" variant="body2" pl={2}>
+              Continue with google
+            </Typography>
           </Button>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 };
 

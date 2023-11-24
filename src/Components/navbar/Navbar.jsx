@@ -11,20 +11,25 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-// import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
-// import { useScrollTrigger } from "@mui/material";
-
+import { Grid } from "@mui/material";
 const pages = ["Home", "Products"];
 const settings = ["User name", "Dashboard", "Logout"];
 
 function Navbar() {
-  // const sss = useScrollTrigger()
   const { user, logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [colorChange, setColorChange] = React.useState(false);
+  const changeNavColor = () => {
+    if (window.scrollY >= 80) {
+      setColorChange(true);
+    } else {
+      setColorChange(false);
+    }
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -44,30 +49,78 @@ function Navbar() {
     }
     setAnchorElUser(null);
   };
+  window.addEventListener("scroll", changeNavColor);
+  // console.log(colorChange)
   return (
     <AppBar
       position="fixed"
-      sx={{ bgcolor: "#ffffff23", boxShadow: "none", color: "#0a5299" }}
+      sx={{ bgcolor: "#fff", boxShadow: "none", color: "#023047" }}
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <Typography
-            variant="h4"
-            noWrap
+          <Grid
+            container
             component="a"
             href="/"
-            fontSize={{ sx: "20px" }}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 800,
-              color: "inherit",
-              textDecoration: "none",
-            }}
+            justifyContent="flex-center"
+            alignItems={"center"}
           >
-            Booking
-          </Typography>
+            <Grid item justifyContent="flex-center" alignItems={"center"}>
+              <Typography
+                variant="h5"
+                component="h5"
+                width={45}
+                height={45}
+                pl={2}
+                pt={1}
+                mr={2}
+                fontSize={{ sx: "35px" }}
+                sx={{
+                  fontFamily: "monospace",
+                  fontWeight: 800,
+                  color: "#fff",
+                  bgcolor: "#219ebc",
+                  alignItems: "center",
+                  borderRadius: "50%",
+                  textDecoration: "none",
+                }}
+              >
+                P
+              </Typography>
+            </Grid>
+            <Grid sx={{ display: "flex" }}>
+              <Grid item>
+                <Typography
+                  variant="h4"
+                  noWrap
+                  fontSize={{ sx: "16px" }}
+                  sx={{
+                    fontFamily: "monospace",
+                    fontWeight: 800,
+                    color: "#023047",
+                    textDecoration: "none",
+                  }}
+                >
+                  Product
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h4"
+                  noWrap
+                  fontSize={{ sx: "16px" }}
+                  sx={{
+                    fontFamily: "monospace",
+                    fontWeight: 800,
+                    color: "#8ecae6",
+                    textDecoration: "none",
+                  }}
+                >
+                  Hunt
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -100,7 +153,7 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography color="#0a5299" textAlign="center">
+                  <Typography color="#023047" textAlign="center">
                     <NavLink
                       to={`/${page}`}
                       className={({ isActive, isPending }) =>
@@ -119,7 +172,7 @@ function Navbar() {
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-          <Typography
+          {/* <Typography
             variant="h4"
             noWrap
             component="a"
@@ -136,7 +189,18 @@ function Navbar() {
             }}
           >
             Booking
-          </Typography>
+          </Typography> */}
+          {/* <Box
+            component="img"
+            sx={{
+              // height: 233,
+              // width: 350,
+              maxHeight: { xs: 233, md: 167 },
+              maxWidth: { xs: 350, md: 250 },
+            }}
+            alt="The house from the offer."
+            src={logo}
+          /> */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <NavLink
@@ -153,7 +217,7 @@ function Navbar() {
                 <Button
                   key={page}
                   onClick={() => handleCloseNavMenu(page)}
-                  sx={{ my: 2, color: "#0a5299", display: "block" }}
+                  sx={{ my: 2, color: "#023047", display: "block" }}
                 >
                   {page}
                 </Button>
@@ -163,9 +227,9 @@ function Navbar() {
           {user?.email ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
@@ -188,7 +252,7 @@ function Navbar() {
                     key={setting}
                     onClick={() => handleCloseUserMenu(setting)}
                   >
-                    <Typography sx={{ color: "#0a5299" }} textAlign="center">
+                    <Typography sx={{ color: "#023047" }} textAlign="center">
                       {setting}
                     </Typography>
                   </MenuItem>
@@ -198,7 +262,7 @@ function Navbar() {
           ) : (
             <NavLink
               to={"/login"}
-              className="text-white bg-[#0a5299] px-3 rounded-md py-1 hover:shadow-md"
+              className="text-[#023047] bg-[#219ebc] px-3 rounded-md py-1 hover:shadow-md"
             >
               <button>Login</button>
             </NavLink>
