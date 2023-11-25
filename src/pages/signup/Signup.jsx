@@ -12,12 +12,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
 import OtherSignin from "../../shear/otherSignin/OtherSignin";
 import { updateProfile } from "firebase/auth";
+import useAxiosPrivate from "../../hooks/axiosPrivate/useAxiosPrivate";
 
 const Signup = () => {
   const { signUpWithEmail } = useAuth();
@@ -44,7 +44,7 @@ const Signup = () => {
   // TODO remove, this demo shouldn't need to reset the theme.
 
   const defaultTheme = createTheme();
-
+  const axiosPrivate = useAxiosPrivate();
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -57,9 +57,10 @@ const Signup = () => {
       name: fullName,
       email,
       photo,
-      password,
+      role:"User",
+      status:"non-verified"
     };
-    console.log(user);
+    // console.log(user);
     setErrorText("");
     if (password.length < 6) {
       setErrorText("Your password must be at least 6 characters");
@@ -79,21 +80,22 @@ const Signup = () => {
       .then((res) => {
         if (res.user) {
           updateProfile(res.user, {
-            displayName:fullName, photoURL: photo
-          }).then(()=>{
-            alert('update user')
-          }).catch(error=>{
-            error&& alert('error update user')
+            displayName: fullName,
+            photoURL: photo,
           })
-          // axios
-          //   .post("https://travel-zoo-server.vercel.app/users", user)
-          //   .then((res) => {
-          //     if (res.data.insertedId) {
-          //       toast.success("your sign up successful");
-          //       navigate("/");
-          //     }
-          //   });
-          console.log(res.user?.displayName);
+            .then(() => {
+              axiosPrivate.post("/users", user).then((res) => {
+                if (res.data) {
+                  toast.success("your sign up successfully");
+                  navigate("/");
+                }
+                console.log(res.data);
+              });
+              // alert("update user");
+            })
+            .catch((error) => {
+              error && alert("error update user");
+            });
         }
       })
       .catch((error) => {

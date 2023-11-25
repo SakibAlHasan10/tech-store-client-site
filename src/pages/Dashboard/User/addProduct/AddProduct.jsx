@@ -19,7 +19,7 @@ const VisuallyHiddenInput = styled("input")({
 // react tag input
 import { useState } from "react";
 // import { COUNTRIES } from "./countries";
-// import "./style.css";
+// import "./reactTags.css";
 import { WithContext as ReactTags } from "react-tag-input";
 
 // const suggestions = COUNTRIES.map((country) => {

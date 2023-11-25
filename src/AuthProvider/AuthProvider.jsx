@@ -8,8 +8,8 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import axios from "axios";
 import { auth } from "../Config/firebase/firebase.config";
+import useAxiosPrivate from "../hooks/axiosPrivate/useAxiosPrivate";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loadRoom, setLoadRoom] = useState([]);
@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
+  const axiosPrivate = useAxiosPrivate()
 
   // sign in with google
   const googleProvider = new GoogleAuthProvider();
@@ -40,23 +41,23 @@ const AuthProvider = ({ children }) => {
 
   // user state change
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth,(currentUser) => {
       setUser(currentUser);
       setIsLoading(false);
       const userEmail = currentUser?.email || user?.email;
       const loggedUser = { email: userEmail };
       if (currentUser) {
         // TODO: add sever site
-        axios
-          .post("", loggedUser, {
+        axiosPrivate
+          .post("/jwt", loggedUser, {
             withCredentials: true,
           })
           .then(() => {
             // console.log(res.data)
           });
       } else {
-        axios
-          .post("https://travel-zoo-server.vercel.app/logout", loggedUser, {
+        axiosPrivate
+          .post("/logout", loggedUser, {
             withCredentials: true,
           })
           .then(() => {
@@ -67,7 +68,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, [user?.email]);
+  }, [axiosPrivate,user?.email]);
 
   // logout
   const logout = () => {
