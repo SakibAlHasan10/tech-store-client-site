@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../Config/firebase/firebase.config";
-import useAxiosPrivate from "../hooks/axiosPrivate/useAxiosPrivate";
+import useAxiosSecure from "../hooks/axiosSecure/useAxiosSecure";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [loadRoom, setLoadRoom] = useState([]);
@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
-  const axiosPrivate = useAxiosPrivate()
+  const axiosSecure = useAxiosSecure();
 
   // sign in with google
   const googleProvider = new GoogleAuthProvider();
@@ -41,34 +41,26 @@ const AuthProvider = ({ children }) => {
 
   // user state change
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth,(currentUser) => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setIsLoading(false);
       const userEmail = currentUser?.email || user?.email;
       const loggedUser = { email: userEmail };
       if (currentUser) {
         // TODO: add sever site
-        axiosPrivate
-          .post("/jwt", loggedUser, {
-            withCredentials: true,
-          })
-          .then(() => {
-            // console.log(res.data)
-          });
+        axiosSecure.post("/jwt", loggedUser).then(() => {
+          // console.log(res.data)
+        });
       } else {
-        axiosPrivate
-          .post("/logout", loggedUser, {
-            withCredentials: true,
-          })
-          .then(() => {
-            // console.log(res.data)
-          });
+        axiosSecure.post("/logout", loggedUser).then(() => {
+          // console.log(res.data)
+        });
       }
     });
     return () => {
       unSubscribe();
     };
-  }, [axiosPrivate,user?.email]);
+  }, [axiosSecure, user?.email]);
 
   // logout
   const logout = () => {

@@ -3,15 +3,31 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/axiosPrivate/useAxiosPrivate";
 const OtherSignin = () => {
+  const axiosPrivate = useAxiosPrivate();
   const { signInWithGoogle } = useAuth();
   const navigate = useNavigate();
+
   const handleGoogle = () => {
     signInWithGoogle()
       .then((res) => {
-        if (res.user) {
-          toast.success("create account successful");
-          navigate("/")
+        if (res?.user) {
+          const user = {
+            name: res?.user?.displayName,
+            email: res?.user?.email,
+            photo: res?.user?.photoURL,
+            role: "User",
+            status: "non-verified",
+          };
+          console.log(user);
+          axiosPrivate.put("/users", user).then((res) => {
+            if (res.data) {
+              toast.success("your login successfully");
+              navigate("/");
+            }
+            // console.log(res.data);
+          });
         }
       })
       .catch((error) => {
