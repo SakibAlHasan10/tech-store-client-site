@@ -21,7 +21,7 @@ const pages = (
       to={`/`}
       className={({ isActive, isPending }) =>
         isActive
-          ? "active text-orange-500 border-b-2 border-orange-500 pb-1"
+          ? "active text-[#fb8500] border-b-2 border-[#fb8500] pb-1"
           : isPending
           ? "pending"
           : ""
@@ -32,7 +32,7 @@ const pages = (
     <NavLink
       to={`/products`}
       className={({ isActive, isPending }) =>
-        isActive ? "active text-orange-500" : isPending ? "pending" : ""
+        isActive ? "active text-[#fb8500] border-b-2 border-[#fb8500] pb-1" : isPending ? "pending" : ""
       }
     >
       Products
