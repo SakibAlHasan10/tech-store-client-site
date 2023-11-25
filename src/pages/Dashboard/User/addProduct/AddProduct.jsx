@@ -1,11 +1,9 @@
 import { Container, Grid, TextField, Typography } from "@mui/material";
-
 import Box from "@mui/material/Box";
 import useAuth from "../../../../hooks/authHook/useAuth";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -18,9 +16,60 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+// react tag input
+import { useState } from "react";
+// import { COUNTRIES } from "./countries";
+// import "./style.css";
+import { WithContext as ReactTags } from "react-tag-input";
+
+// const suggestions = COUNTRIES.map((country) => {
+//   return {
+//     id: country,
+//     text: country,
+//   };
+// });
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
 const AddProduct = () => {
   const { user } = useAuth();
-  //   const name = user?.displayName
+
+  const [tags, setTags] = useState([
+    // { id: "Thailand", text: "Thailand" },
+    // { id: "India", text: "India" },
+    // { id: "Vietnam", text: "Vietnam" },
+    // { id: "Turkey", text: "Turkey" },
+  ]);
+
+  const handleDelete = (i) => {
+    setTags(tags.filter((tag, index) => index !== i));
+  };
+
+  const handleAddition = (tag) => {
+    setTags([...tags, tag]);
+  };
+
+  const handleDrag = (tag, currPos, newPos) => {
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    setTags(newTags);
+  };
+
+  const handleTagClick = (index) => {
+    console.log("The tag at index " + index + " was clicked");
+  };
+
+  console.log(tags);
+  //   product form
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,6 +97,7 @@ const AddProduct = () => {
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 8 }}>
         <Container sx={{ display: "flex", gap: "20px" }}>
+          {/* product section */}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -68,6 +118,20 @@ const AddProduct = () => {
                 required
                 fullWidth
                 rows={4}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ReactTags
+                tags={tags}
+                // suggestions={suggestions}
+                inline={false}
+                delimiters={delimiters}
+                handleDelete={handleDelete}
+                handleAddition={handleAddition}
+                handleDrag={handleDrag}
+                handleTagClick={handleTagClick}
+                inputFieldPosition="bottom"
+                autocomplete
               />
             </Grid>
             <Grid item xs={12}>
