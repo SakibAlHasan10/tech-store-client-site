@@ -1,10 +1,10 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import useAuth from "../../../hooks/authHook/useAuth";
+import useAuth from "../../../../hooks/authHook/useAuth";
 import { Verified } from "@mui/icons-material";
-import Payment from "./myProfile/Payment";
+import Payment from "./Payment";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/axiosSecure/useAxiosSecure";
+import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 
 const MyProfile = () => {
   const axiosSecure = useAxiosSecure();
@@ -12,16 +12,21 @@ const MyProfile = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   // const email = {email:user?.email}
-  const { isPending, error, data:CurrentUser={} } = useQuery({
+  const {
+    isPending,
+    error,
+    data: CurrentUser = {},
+  } = useQuery({
     queryKey: ["singleUser"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users/${user?.email}`)
-      // .then((res) => {
-      // });
+      const res = await axiosSecure.get(`/users/${user?.email}`);
+
       return res?.data;
     },
   });
-  console.log(CurrentUser);
+  const { photo, name, email, status } = CurrentUser;
+  // console.log(Object.keys(CurrentUser).join(','));
+  const isNonVerified = status === "non-verified";
   return (
     <Container>
       <Typography component="" mb={6} variant="h4" sx={{ fontWeight: "800" }}>
@@ -45,25 +50,29 @@ const MyProfile = () => {
             // maxWidth: { xs: 350, md: 250 },
           }}
           alt="user photo"
-          src={user?.photoURL}
+          src={photo}
         />
-        <Typography
-          component=""
-          mt={2}
-          variant="h6"
-          sx={{ fontWeight: "700", color: "#219ebc" }}
-        >
-          Verified user <Verified />
-        </Typography>
+        {isNonVerified || (
+          <Typography
+            component=""
+            mt={2}
+            variant="h6"
+            sx={{ fontWeight: "700", color: "#219ebc" }}
+          >
+            Verified <Verified />
+          </Typography>
+        )}
         <Typography component="" mt={2} variant="h5" sx={{ fontWeight: "800" }}>
-          {user?.displayName}
+          {name}
         </Typography>
         <Typography component="" my={2} variant="h6" sx={{ fontWeight: "700" }}>
-          {user?.email}
+          {email}
         </Typography>
-        <Button variant="contained" onClick={handleOpen}>
-          Subscribe only $20
-        </Button>
+        {isNonVerified && (
+          <Button variant="contained" onClick={handleOpen}>
+            Subscribe only $20
+          </Button>
+        )}
       </Container>
       <Payment open={open} setOpen={setOpen} />
     </Container>

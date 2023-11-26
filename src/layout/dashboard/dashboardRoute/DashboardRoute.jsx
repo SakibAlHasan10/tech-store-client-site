@@ -6,10 +6,18 @@ import ListItem from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { Link as RouterLink, MemoryRouter } from "react-router-dom";
+import Divider from "@mui/material/Divider";
+// import Typography from "@mui/material/Typography";
+import {
+  Link as RouterLink,
+  //   Route,
+  //   Routes,
+  MemoryRouter,
+  //   useLocation,
+} from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
-import { Add, ProductionQuantityLimits } from "@mui/icons-material";
+import { Home, ProductionQuantityLimits } from "@mui/icons-material";
+import UserRoute from "../User/UserRoute";
 
 function Router(props) {
   const { children } = props;
@@ -51,24 +59,31 @@ ListItemLink.propTypes = {
   to: PropTypes.string.isRequired,
 };
 
-const UserRoute = () => {
+// function Content() {
+//   const location = useLocation();
+//   return (
+//     <Typography variant="body2" sx={{ pb: 2 }} color="text.secondary">
+//       Current route: {location.pathname}
+//     </Typography>
+//   );
+// }
+
+const DashboardRoute = () => {
   return (
+    // <Router>
     <Box sx={{ width: 360 }}>
+      {/* <Routes>
+              <Route path="*" element={<Content />} />
+            </Routes> */}
+
       <Paper elevation={0}>
-        <List aria-label="main mailbox folders">
+        <UserRoute />
+        <Divider />
+        <List aria-label="secondary mailbox folders">
+          <ListItemLink to="/" primary="Home" icon={<Home />} />
           <ListItemLink
-            to="/dashboard"
-            primary="My Profile"
-            icon={<AccountBoxIcon />}
-          />
-          <ListItemLink
-            to="/dashboard/add-product"
-            primary="Add Products"
-            icon={<Add />}
-          />
-          <ListItemLink
-            to="/dashboard/my-products"
-            primary="My Products"
+            to="/products"
+            primary="Products"
             icon={<ProductionQuantityLimits />}
           />
         </List>
@@ -77,4 +92,4 @@ const UserRoute = () => {
   );
 };
 
-export default UserRoute;
+export default DashboardRoute;
