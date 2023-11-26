@@ -6,7 +6,7 @@ const AdminPrivateRoute = ({ children }) => {
   if (isLoading) {
     return <p>moderator loading...</p>;
   }
-  if (currentUser?.role === "Moderator") {
+  if (currentUser?.role === "Admin") {
     return children;
   }
   return <Navigate to={"/"} />;

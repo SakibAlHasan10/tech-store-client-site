@@ -18,16 +18,9 @@ const VisuallyHiddenInput = styled("input")({
 
 // react tag input
 import { useState } from "react";
-// import { COUNTRIES } from "./countries";
-// import "./reactTags.css";
 import { WithContext as ReactTags } from "react-tag-input";
-
-// const suggestions = COUNTRIES.map((country) => {
-//   return {
-//     id: country,
-//     text: country,
-//   };
-// });
+import useAxiosPublic from "../../../../hooks/axiosPublic/useAxiosPublic";
+import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 
 const KeyCodes = {
   comma: 188,
@@ -36,16 +29,19 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+const image_hosting_key = import.meta.env.VITE_IMG_HOST;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddProduct = () => {
+  const axiosSecure = useAxiosSecure()
+  const axiosPublic = useAxiosPublic();
+  const [imageFile, setImageFile] = useState("");
+  const [imgbb, setImgbb] = useState('')
   const { user } = useAuth();
-
-  const [tags, setTags] = useState([
-    // { id: "Thailand", text: "Thailand" },
-    // { id: "India", text: "India" },
-    // { id: "Vietnam", text: "Vietnam" },
-    // { id: "Turkey", text: "Turkey" },
-  ]);
-
+  const [tags, setTags] = useState([]);
+  const handleFile = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+  // console.log(imageFile)
   const handleDelete = (i) => {
     setTags(tags.filter((tag, index) => index !== i));
   };
@@ -68,27 +64,44 @@ const AddProduct = () => {
     console.log("The tag at index " + index + " was clicked");
   };
 
-  console.log(tags);
   //   product form
-
-  const handleSubmit = (event) => {
+  console.log(imageFile);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const productName = data.get("productName");
-    const productImage = data.get("productImage");
+    // const productImage = imageFile;
+    // data.get("productPhoto");
     const productDescription = data.get("productDescription");
     const name = user?.displayName;
     const email = user?.email;
     const photo = user.photoURL;
-    const product = {
-      productName,
-      productImage,
-      productDescription,
-      name,
-      email,
-      photo,
-    };
-    console.log(product);
+
+    const res = await axiosPublic.post(
+      image_hosting_api,
+      { image: imageFile },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    setImgbb(res.data.data.display_url)
+    console.log(res.data.display_url, "ibbb");
+    if (res.data.success) {
+      const product = {
+        productName,
+        productDescription,
+        productImage: res.data.data.display_url || 'Not available',
+        tags,
+        owner: { name, email, photo },
+      };
+      const pro = await axiosSecure.post("/products",product)
+      // .then(res=>{
+      //   console.log(res?.data)
+      // })
+      console.log(product, pro,'ppppp');
+    }
   };
   return (
     <Box>
@@ -135,15 +148,18 @@ const AddProduct = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button
-                component="label"
-                variant="contained"
-                fullWidth
-                startIcon={<CloudUploadIcon />}
-              >
-                Upload Product Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
+            <Button
+              component="label"
+              variant="contained"
+              fullWidth
+              name="productPhoto"
+              onChange={handleFile}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload Product Image
+              
+              <VisuallyHiddenInput type="file" />
+            </Button>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -170,7 +186,7 @@ const AddProduct = () => {
             <Grid item xs={12}>
               <TextField
                 disabled
-                id="outlined-disabled"
+                id="owner_Photo"
                 label="Owner Photo"
                 name="photo"
                 fullWidth
