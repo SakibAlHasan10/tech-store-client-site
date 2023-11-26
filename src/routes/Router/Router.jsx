@@ -8,6 +8,7 @@ import MyProfile from "../../pages/Dashboard/User/MyProfile";
 import AddProduct from "../../pages/Dashboard/User/addProduct/AddProduct";
 import MyProducts from "../../layout/dashboard/User/myProducts/MyProducts";
 import Products from "../../pages/products/Products";
+import PrivateRoute from "../privateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -30,12 +31,12 @@ const router = createBrowserRouter([
         element:<Login/>
     },
     {
-        path:"/signup",
-        element:<Signup/>
+        path:"/signup/:p",
+        element:<Signup/>,
     },
     {
         path:"/dashboard",
-        element:<Dashboard/>,
+        element:<PrivateRoute><Dashboard/></PrivateRoute>,
         children:[
             // user route
             {
