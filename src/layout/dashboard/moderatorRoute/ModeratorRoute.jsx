@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import PropTypes from "prop-types";
 import List from "@mui/material/List";
@@ -6,21 +7,10 @@ import ListItem from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-// import Typography from "@mui/material/Typography";
-import {
-  Link as RouterLink,
-  //   Route,
-  //   Routes,
-  MemoryRouter,
-  //   useLocation,
-} from "react-router-dom";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { Link as RouterLink, MemoryRouter } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
-import { Home, ProductionQuantityLimits } from "@mui/icons-material";
-import UserRoute from "../User/UserRoute";
-import ModeratorRoute from "../moderatorRoute/ModeratorRoute";
-import AdminRoute from "../adminRoute/AdminRoute";
-import useGetUser from "../../../hooks/getUser/useGetUser";
+import { Add, ProductionQuantityLimits, Report, Reviews } from "@mui/icons-material";
 
 function Router(props) {
   const { children } = props;
@@ -62,41 +52,25 @@ ListItemLink.propTypes = {
   to: PropTypes.string.isRequired,
 };
 
-// function Content() {
-//   const location = useLocation();
-//   return (
-//     <Typography variant="body2" sx={{ pb: 2 }} color="text.secondary">
-//       Current route: {location.pathname}
-//     </Typography>
-//   );
-// }
-let userRole;
-const DashboardRoute = () => {
-  const [currentUser] = useGetUser();
-  const { role } = currentUser;
-  console.log(role);
-  // if(role==="Admin"){
-
-  // }
+const ModeratorRoute = () => {
   return (
-    // <Router>
     <Box sx={{ width: 360 }}>
-      {/* <Routes>
-              <Route path="*" element={<Content />} />
-            </Routes> */}
-
       <Paper elevation={0}>
-        {role === "Admin" && <AdminRoute />}
-        {role === "Moderator" && <ModeratorRoute />}
-        {role === "User" && <UserRoute />}
-
-        <Divider />
-        <List aria-label="secondary mailbox folders">
-          <ListItemLink to="/" primary="Home" icon={<Home />} />
+        <List aria-label="main mailbox folders">
           <ListItemLink
-            to="/products"
-            primary="Products"
-            icon={<ProductionQuantityLimits />}
+            to="/dashboard"
+            primary="My Profile"
+            icon={<AccountBoxIcon />}
+          />
+          <ListItemLink
+            to="/dashboard/review-product"
+            primary="Review Products"
+            icon={<Reviews />}
+          />
+          <ListItemLink
+            to="/dashboard/reported-product"
+            primary="Reported Products"
+            icon={<Report />}
           />
         </List>
       </Paper>
@@ -104,4 +78,4 @@ const DashboardRoute = () => {
   );
 };
 
-export default DashboardRoute;
+export default ModeratorRoute;

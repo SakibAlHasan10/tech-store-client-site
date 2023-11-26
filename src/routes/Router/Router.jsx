@@ -4,13 +4,14 @@ import Signup from "../../pages/signup/Signup";
 import Roots from "../../layout/roots/Roots";
 import Home from "../../pages/home/Home";
 import Dashboard from "../../layout/dashboard/Dashboard";
-import MyProfile from "../../pages/Dashboard/User/myProfile/MyProfile";
 import AddProduct from "../../pages/Dashboard/User/addProduct/AddProduct";
 import Products from "../../pages/products/Products";
 import PrivateRoute from "../privateRoute/PrivateRoute";
 import ReportedProduct from "../../pages/Dashboard/Moderators/ReportedProduct/ReportedProduct";
 import ReviewProduct from "../../pages/Dashboard/Moderators/ReviewProduct/ReviewProduct";
 import MyProducts from "../../pages/Dashboard/User/myProducts/MyProducts";
+import MyProfile from "../../pages/Dashboard/myProfile/MyProfile";
+import ModeratorPrivateRoute from "../moderatorPrivateRoute/ModeratorPrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -62,7 +63,9 @@ const router = createBrowserRouter([
         path: "reported-product",
         element: (
           <PrivateRoute>
-            <ReportedProduct />
+            <ModeratorPrivateRoute>
+              <ReportedProduct />
+            </ModeratorPrivateRoute>
           </PrivateRoute>
         ),
       },
@@ -70,7 +73,9 @@ const router = createBrowserRouter([
         path: "review-product",
         element: (
           <PrivateRoute>
-            <ReviewProduct />
+            <ModeratorPrivateRoute>
+              <ReviewProduct />
+            </ModeratorPrivateRoute>
           </PrivateRoute>
         ),
       },

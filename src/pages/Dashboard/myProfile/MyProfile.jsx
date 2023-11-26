@@ -1,32 +1,19 @@
 import { Box, Button, Container, Typography } from "@mui/material";
-import useAuth from "../../../../hooks/authHook/useAuth";
 import { Verified } from "@mui/icons-material";
 import Payment from "./Payment";
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
+import useGetUser from "../../../hooks/getUser/useGetUser";
 
 const MyProfile = () => {
-  const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
+  const [currentUser] = useGetUser();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   // const email = {email:user?.email}
-  const {
-    isPending,
-    error,
-    data: CurrentUser = {},
-  } = useQuery({
-    queryKey: ["singleUser"],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/users/${user?.email}`);
 
-      return res?.data;
-    },
-  });
-  const { photo, name, email, status } = CurrentUser;
+  const { photo, name, email, status } = currentUser;
   // console.log(Object.keys(CurrentUser).join(','));
   const isNonVerified = status === "non-verified";
+  // console.log(isNonVerified)
   return (
     <Container>
       <Typography component="" mb={6} variant="h4" sx={{ fontWeight: "800" }}>
