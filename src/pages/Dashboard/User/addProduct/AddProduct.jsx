@@ -24,10 +24,11 @@ import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 
 const KeyCodes = {
   comma: 188,
+  SPACE: 32,
   enter: 13,
 };
 
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
+const delimiters = [KeyCodes.comma, KeyCodes.SPACE, KeyCodes.enter];
 
 const image_hosting_key = import.meta.env.VITE_IMG_HOST;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -73,6 +74,7 @@ const AddProduct = () => {
     // const productImage = imageFile;
     // data.get("productPhoto");
     const productDescription = data.get("productDescription");
+    const links = data.get("external_Links");
     const name = user?.displayName;
     const email = user?.email;
     const photo = user.photoURL;
@@ -92,6 +94,7 @@ const AddProduct = () => {
       const product = {
         productName,
         productDescription,
+        links,
         productImage: res.data.data.display_url || 'Not available',
         tags,
         owner: { name, email, photo },
@@ -133,7 +136,7 @@ const AddProduct = () => {
                 rows={4}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid border={2} item xs={12} sx={{color:"#000", }}>
               <ReactTags
                 tags={tags}
                 // suggestions={suggestions}
@@ -191,6 +194,14 @@ const AddProduct = () => {
                 name="photo"
                 fullWidth
                 defaultValue={user?.photoURL}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="external_Links"
+                label="Add External Links"
+                name="external_Links"
+                fullWidth
               />
             </Grid>
           </Grid>
