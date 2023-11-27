@@ -36,9 +36,14 @@ const ReviewProduct = () => {
   const [allProduct, , refetch] = useAllProduct();
   const axiosSecure = useAxiosSecure();
 
+  const pendingProduct = allProduct.filter(
+    (prod) => prod?.status === "Pending"
+  );
+  const othersProduct = allProduct.filter((prod) => prod?.status !== "Pending");
+
   //   product status accept
   const handleProductAccept = (id) => {
-    const status = { status: "Accept" };
+    const status = { status: "Accepted" };
     axiosSecure.patch(`/products/${id}`, status).then((res) => {
       //   console.log(id, res.data);
 
@@ -50,7 +55,7 @@ const ReviewProduct = () => {
   };
   //   product status reject
   const handleProductReject = (id) => {
-    const status = { status: "Reject" };
+    const status = { status: "Rejected" };
     axiosSecure.patch(`/products/${id}`, status).then((res) => {
       //   console.log(id, res.data);
 
@@ -78,6 +83,7 @@ const ReviewProduct = () => {
           <TableRow>
             <StyledTableCell align="center">No</StyledTableCell>
             <StyledTableCell align="left">Product Name</StyledTableCell>
+            <StyledTableCell align="left">Status</StyledTableCell>
             <StyledTableCell align="center">View Details</StyledTableCell>
             <StyledTableCell align="center">Make Featured</StyledTableCell>
             <StyledTableCell align="center">Accept</StyledTableCell>
@@ -85,12 +91,59 @@ const ReviewProduct = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allProduct.map((product, idx) => (
+          {pendingProduct.map((product, idx) => (
             <StyledTableRow key={product._id}>
               <StyledTableCell align="center">{idx + 1}</StyledTableCell>
               <StyledTableCell align="left" component="th" scope="row">
                 {product.productName}
               </StyledTableCell>
+              <StyledTableCell align="left">{product.status}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Link to={`/details/${product?._id}`}>
+                  <Button size="small">Details</Button>
+                </Link>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Button
+                  disabled={product.featured === true}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductFeatured(product?._id)}
+                >
+                  Featured
+                </Button>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Button
+                  disabled={product.status === "Accepted"}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductAccept(product?._id)}
+                >
+                  Accept
+                </Button>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Button
+                  disabled={product.status === "Rejected"}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductReject(product?._id)}
+                >
+                  Reject
+                </Button>
+              </StyledTableCell>
+            </StyledTableRow>
+          ))}
+          {othersProduct.map((product, idx) => (
+            <StyledTableRow key={product._id}>
+              <StyledTableCell align="center">
+                {pendingProduct.length + idx + 1}
+              </StyledTableCell>
+              <StyledTableCell align="left" component="th" scope="row">
+                {product.productName}
+              </StyledTableCell>
+              <StyledTableCell align="left">{product.status}</StyledTableCell>
               <StyledTableCell align="center">
                 <Link to={`/details/${product?._id}`}>
                   <Button size="small">Details</Button>
@@ -126,20 +179,6 @@ const ReviewProduct = () => {
                   Reject
                 </Button>
               </StyledTableCell>
-            </StyledTableRow>
-          ))}
-          {allProduct.map((product, idx) => (
-            <StyledTableRow key={product._id}>
-              <StyledTableCell align="center">
-                {allProduct.length + idx + 1}
-              </StyledTableCell>
-              <StyledTableCell align="left">
-                {product.productName}
-              </StyledTableCell>
-              <StyledTableCell align="center">button</StyledTableCell>
-              <StyledTableCell align="center">button</StyledTableCell>
-              <StyledTableCell align="center">button</StyledTableCell>
-              <StyledTableCell align="center">button</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

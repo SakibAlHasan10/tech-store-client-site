@@ -21,8 +21,9 @@ import { useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import useAxiosPublic from "../../../../hooks/axiosPublic/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import useSingleProduct from "../../../../hooks/fetchSingleProduct/useSingleProduct";
 
 const KeyCodes = {
   comma: 188,
@@ -34,13 +35,17 @@ const delimiters = [KeyCodes.comma, KeyCodes.SPACE, KeyCodes.enter];
 
 const image_hosting_key = import.meta.env.VITE_IMG_HOST;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-const AddProduct = () => {
+
+const UpdateProduct = () => {
+    const {id}=useParams()
+  const [singleProduct] = useSingleProduct(id);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const [imageFile, setImageFile] = useState("");
   const { user } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [tags, setTags] = useState([]);
+  console.log(singleProduct)
   const handleFile = (e) => {
     setImageFile(e.target.files[0]);
   };
@@ -96,24 +101,24 @@ const AddProduct = () => {
         productName,
         productDescription,
         links,
-        featured:false,
-        status:"Pending",
-        vote:0,
+        featured: false,
+        status: "Pending",
+        vote: 0,
         productImage: res.data.data.display_url || "Not available",
         tags,
         owner: { name, email, photo },
       };
       const pro = await axiosSecure.post("/products", product);
-      if(pro.statusText==="OK"){
-        toast.success("Product saved successfully")
-        navigate('/dashboard/my-products')
+      if (pro.statusText === "OK") {
+        toast.success("Product saved successfully");
+        navigate("/dashboard/my-products");
       }
     }
   };
   return (
     <Box>
       <Typography textAlign={"center"} sx={{ fontWeight: "800" }}>
-        Add Product
+        Update Product
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 8 }}>
         <Container sx={{ display: "flex", gap: "20px" }}>
@@ -125,6 +130,7 @@ const AddProduct = () => {
                 required
                 id="productName"
                 label="Product Name"
+                defaultValue={singleProduct?.productName}
                 name="productName"
               />
             </Grid>
@@ -136,16 +142,16 @@ const AddProduct = () => {
                 name="productDescription"
                 multiline
                 required
+                defaultValue={singleProduct?.productDescription}
                 fullWidth
                 rows={4}
               />
             </Grid>
-            <Grid  item xs={12} sx={{ color: "#000" }}>
+            <Grid item xs={12} sx={{ color: "#000" }}>
               <ReactTags
                 tags={tags}
                 // suggestions={suggestions}
                 inline={false}
-                border={2} 
                 delimiters={delimiters}
                 handleDelete={handleDelete}
                 handleAddition={handleAddition}
@@ -204,7 +210,9 @@ const AddProduct = () => {
               <TextField
                 id="external_Links"
                 label="Add External Links"
+                required
                 name="external_Links"
+                defaultValue={singleProduct?.links}
                 fullWidth
               />
             </Grid>
@@ -226,4 +234,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

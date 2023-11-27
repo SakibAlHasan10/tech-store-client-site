@@ -13,6 +13,7 @@ import MyProducts from "../../pages/Dashboard/User/myProducts/MyProducts";
 import MyProfile from "../../pages/Dashboard/myProfile/MyProfile";
 import ModeratorPrivateRoute from "../moderatorPrivateRoute/ModeratorPrivateRoute";
 import ProductDetails from "../../pages/ProductDetails/ProductDetails";
+import UpdateProduct from "../../pages/Dashboard/User/myProducts/updateProduct";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "my-products",
         element: <MyProducts />,
+      },
+      {
+        path:"update/:id",
+        element:<UpdateProduct/>
       },
       // Moderators route
       {
