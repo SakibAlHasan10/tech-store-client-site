@@ -10,6 +10,9 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
+// import useDeleteProduct from "../../../../hooks/deleteProduct/useDeleteProduct";
+// import { useState } from "react";
+import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,11 +35,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ReviewProduct = () => {
-  const [allProduct] = useAllProduct();
-  console.log(allProduct);
+  const [allProduct, , refetch] = useAllProduct();
+  //   const [proDelete, setProDelete]=useState('')
+  //   const [deleteProduct] = useDeleteProduct(proDelete);
+  //   console.log(allProduct);
+  const axiosSecure = useAxiosSecure();
 
-  const handleDetails = (id) => {
-    console.log(id);
+  const handleDeleteProduct = async (id) => {
+    axiosSecure.delete(`/products/${id}`).then((res) => {
+      if (res.data._id) {
+        refetch();
+      }
+    });
   };
   return (
     <TableContainer component={Paper}>
@@ -72,7 +82,11 @@ const ReviewProduct = () => {
                 </Button>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <IconButton color="#000" aria-label="delete">
+                <IconButton
+                  color="#000"
+                  aria-label="delete"
+                  onClick={() => handleDeleteProduct(product?._id)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </StyledTableCell>
