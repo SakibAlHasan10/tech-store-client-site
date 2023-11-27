@@ -21,6 +21,8 @@ import { useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import useAxiosPublic from "../../../../hooks/axiosPublic/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const KeyCodes = {
   comma: 188,
@@ -33,11 +35,11 @@ const delimiters = [KeyCodes.comma, KeyCodes.SPACE, KeyCodes.enter];
 const image_hosting_key = import.meta.env.VITE_IMG_HOST;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddProduct = () => {
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const [imageFile, setImageFile] = useState("");
-  const [imgbb, setImgbb] = useState('')
   const { user } = useAuth();
+  const navigate = useNavigate()
   const [tags, setTags] = useState([]);
   const handleFile = (e) => {
     setImageFile(e.target.files[0]);
@@ -88,22 +90,24 @@ const AddProduct = () => {
         },
       }
     );
-    setImgbb(res.data.data.display_url)
-    console.log(res.data.display_url, "ibbb");
+
     if (res.data.success) {
       const product = {
         productName,
         productDescription,
         links,
-        productImage: res.data.data.display_url || 'Not available',
+        featured:false,
+        status:"Pending",
+        vote:0,
+        productImage: res.data.data.display_url || "Not available",
         tags,
         owner: { name, email, photo },
       };
-      const pro = await axiosSecure.post("/products",product)
-      // .then(res=>{
-      //   console.log(res?.data)
-      // })
-      console.log(product, pro,'ppppp');
+      const pro = await axiosSecure.post("/products", product);
+      if(pro.statusText==="OK"){
+        toast.success("Product saved successfully")
+        navigate('/dashboard/my-products')
+      }
     }
   };
   return (
@@ -136,7 +140,7 @@ const AddProduct = () => {
                 rows={4}
               />
             </Grid>
-            <Grid border={2} item xs={12} sx={{color:"#000", }}>
+            <Grid border={2} item xs={12} sx={{ color: "#000" }}>
               <ReactTags
                 tags={tags}
                 // suggestions={suggestions}
@@ -151,18 +155,17 @@ const AddProduct = () => {
               />
             </Grid>
             <Grid item xs={12}>
-            <Button
-              component="label"
-              variant="contained"
-              fullWidth
-              name="productPhoto"
-              onChange={handleFile}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload Product Image
-              
-              <VisuallyHiddenInput type="file" />
-            </Button>
+              <Button
+                component="label"
+                variant="contained"
+                fullWidth
+                name="productPhoto"
+                onChange={handleFile}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload Product Image
+                <VisuallyHiddenInput type="file" />
+              </Button>
             </Grid>
           </Grid>
           <Grid container spacing={2}>

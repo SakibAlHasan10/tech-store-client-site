@@ -7,12 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-// import useDeleteProduct from "../../../../hooks/deleteProduct/useDeleteProduct";
-// import { useState } from "react";
 import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,14 +34,39 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ReviewProduct = () => {
   const [allProduct, , refetch] = useAllProduct();
-  //   const [proDelete, setProDelete]=useState('')
-  //   const [deleteProduct] = useDeleteProduct(proDelete);
-  //   console.log(allProduct);
   const axiosSecure = useAxiosSecure();
 
-  const handleDeleteProduct = async (id) => {
-    axiosSecure.delete(`/products/${id}`).then((res) => {
+  //   product status accept
+  const handleProductAccept = (id) => {
+    const status = { status: "Accept" };
+    axiosSecure.patch(`/products/${id}`, status).then((res) => {
+      //   console.log(id, res.data);
+
       if (res.data._id) {
+        toast.success("Product accepted successfully");
+        refetch();
+      }
+    });
+  };
+  //   product status reject
+  const handleProductReject = (id) => {
+    const status = { status: "Reject" };
+    axiosSecure.patch(`/products/${id}`, status).then((res) => {
+      //   console.log(id, res.data);
+
+      if (res.data._id) {
+        toast.success("Product rejected successfully");
+        refetch();
+      }
+    });
+  };
+  //   product status reject
+  const handleProductFeatured = (id) => {
+    const featured = { featured: true };
+    axiosSecure.patch(`/products/${id}`, featured).then((res) => {
+      //   console.log(id, res.data);
+      if (res.data._id) {
+        toast.success("featured added successfully");
         refetch();
       }
     });
@@ -74,21 +97,34 @@ const ReviewProduct = () => {
                 </Link>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <Button size="small">Featured</Button>
+                <Button
+                  disabled={product.featured === true}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductFeatured(product?._id)}
+                >
+                  Featured
+                </Button>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <Button size="small" variant="contained">
+                <Button
+                  disabled={product.status === "Accept"}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductAccept(product?._id)}
+                >
                   Accept
                 </Button>
               </StyledTableCell>
               <StyledTableCell align="center">
-                <IconButton
-                  color="#000"
-                  aria-label="delete"
-                  onClick={() => handleDeleteProduct(product?._id)}
+                <Button
+                  disabled={product.status === "Reject"}
+                  size="small"
+                  variant="contained"
+                  onClick={() => handleProductReject(product?._id)}
                 >
-                  <DeleteIcon />
-                </IconButton>
+                  Reject
+                </Button>
               </StyledTableCell>
             </StyledTableRow>
           ))}
