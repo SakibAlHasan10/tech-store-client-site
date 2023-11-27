@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,6 +34,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const ReviewProduct = () => {
   const [allProduct] = useAllProduct();
   console.log(allProduct);
+
+  const handleDetails = (id) => {
+    console.log(id);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -54,7 +59,9 @@ const ReviewProduct = () => {
                 {product.productName}
               </StyledTableCell>
               <StyledTableCell align="center">
-                <Button size="small">Details</Button>
+                <Link to={`/details/${product?._id}`}>
+                  <Button size="small">Details</Button>
+                </Link>
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Button size="small">Featured</Button>

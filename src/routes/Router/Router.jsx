@@ -12,6 +12,7 @@ import ReviewProduct from "../../pages/Dashboard/Moderators/ReviewProduct/Review
 import MyProducts from "../../pages/Dashboard/User/myProducts/MyProducts";
 import MyProfile from "../../pages/Dashboard/myProfile/MyProfile";
 import ModeratorPrivateRoute from "../moderatorPrivateRoute/ModeratorPrivateRoute";
+import ProductDetails from "../../pages/ProductDetails/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         path: "/products",
         element: <Products />,
       },
+      {
+        path:"/details/:id",
+        element:<ProductDetails/>
+      }
     ],
   },
   {
