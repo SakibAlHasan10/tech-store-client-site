@@ -37,9 +37,9 @@ const ManageUser = () => {
   //   console.log(allUser);
 
   //   product status accept
-  const handleProductAccept = (id) => {
-    const status = { status: "Accepted" };
-    axiosSecure.patch(`/products/${id}`, status).then((res) => {
+  const handleUserMakeModerator = (id) => {
+    const role = { role: "Moderator" };
+    axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
       //   console.log(id, res.data);
 
       if (res.data._id) {
@@ -49,9 +49,9 @@ const ManageUser = () => {
     });
   };
   //   product status reject
-  const handleProductReject = (id) => {
-    const status = { status: "Rejected" };
-    axiosSecure.patch(`/products/${id}`, status).then((res) => {
+  const handleUserMakeAdmin = (id) => {
+    const role = { role: "Admin" };
+    axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
       //   console.log(id, res.data);
 
       if (res.data._id) {
@@ -108,7 +108,7 @@ const ManageUser = () => {
                   disabled={user.role === "Moderator"}
                   size="small"
                   variant="contained"
-                  onClick={() => handleProductAccept(user?._id)}
+                  onClick={() => handleUserMakeModerator(user?._id)}
                 >
                   Make Moderator
                 </Button>
@@ -118,7 +118,7 @@ const ManageUser = () => {
                   disabled={user.role === "Admin"}
                   size="small"
                   variant="contained"
-                  onClick={() => handleProductReject(user?._id)}
+                  onClick={() => handleUserMakeAdmin(user?._id)}
                 >
                   Make Admin
                 </Button>
