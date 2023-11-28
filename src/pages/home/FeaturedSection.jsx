@@ -20,18 +20,21 @@ const FeaturedSection = () => {
   // console.log(featuredProduct);
   return (
     <Container>
-      <Typography mt={10} variant="h4" sx={{ fontWeight: "700" }}>
+      <Grid sx={{ px: { md: "100px"}, }} >
+
+      <Typography mt={10} variant="h4" sx={{ fontWeight: "700", textAlign:"center", }}>
         Featured Products
       </Typography>
       <Grid
         container
         rowSpacing={3}
-        mt={6}
+        mt={3}
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        {featuredProduct?.slice(0, 6).map((prod) => (
+        {featuredProduct?.slice(0, 4).map((prod) => (
           <FeaturedCard key={prod?._id} prod={prod}></FeaturedCard>
         ))}
+      </Grid>
       </Grid>
     </Container>
   );

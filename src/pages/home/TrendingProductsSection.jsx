@@ -1,8 +1,8 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
-import FeaturedCard from "./FeaturedCard";
 import useAxiosPublic from "../../hooks/axiosPublic/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import TrendingProductCard from "./TrendingProductCard";
 const TrendingProductsSection = () => {
   const axiosPublic = useAxiosPublic();
   const { isLoading, data: trendingProduct = [] } = useQuery({
@@ -19,20 +19,20 @@ const TrendingProductsSection = () => {
   // console.log(featuredProduct);
   return (
     <Container>
-      <Typography mt={10} variant="h4" sx={{ fontWeight: "700" }}>
+      <Typography mt={15} variant="h4" sx={{ fontWeight: "700", textAlign:"center" }}>
         Trending Products
       </Typography>
       <Grid
         container
         rowSpacing={3}
-        mt={6}
+        mt={3}
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
         {trendingProduct?.slice(0, 6).map((prod) => (
-          <FeaturedCard key={prod?._id} prod={prod}></FeaturedCard>
+          <TrendingProductCard key={prod?._id} prod={prod}></TrendingProductCard>
         ))}
       </Grid>
-      <Grid sx={{ mt: "30px", textAlign: "center" }}>
+      <Grid sx={{ mt: "60px", textAlign: "center" }}>
         <Link to={"/products"}>
           <Button variant="contained">Show All Products</Button>
         </Link>

@@ -9,6 +9,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Grid } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
+import useAxiosSecure from "../../hooks/axiosSecure/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -21,12 +23,25 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const FeaturedCard = ({ prod }) => {
+const TrendingProductCard = ({ prod }) => {
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const { productName, vote, tags, productImage, owner,_id } = prod;
-  // console.log(owner[0]?.email===user?.email)
+  const { productName, vote: like, tags, productImage, owner, _id } = prod;
+  console.log(like + 1);
+  // upVote
+  const handleUpVote = (id) => {
+    const vote = { vote: like + 1 };
+    axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+      console.log(id, res.data, vote + 1);
+
+      if (res.data._id) {
+        toast.success("your vote successfully");
+        // refetch();
+      }
+    });
+  };
   return (
-    <Grid item container xs={12} sm={6}>
+    <Grid item container xs={12} sm={6} md={4}>
       <Card sx={{ width: "100%", height: "500px" }}>
         <CardMedia
           sx={{ width: "100%", height: "300px" }}
@@ -39,18 +54,19 @@ const FeaturedCard = ({ prod }) => {
         <Grid px={3} py={2}>
           <CardContent>
             <Typography variant="h5" color="text.secondary">
-            <Link to={`/details/${_id}`}>
-              {productName.slice(0, 35)}
-                </Link>
+              <Link to={`/details/${_id}`}>{productName.slice(0, 25)}</Link>
             </Typography>
           </CardContent>
+
           <IconButton
+            onClick={() => handleUpVote(_id)}
             disabled={owner[0]?.email === user?.email}
             aria-label="add to favorites"
           >
             <FavoriteIcon />
           </IconButton>
-          {vote}
+
+          {like}
           <Grid container gap={2} mt={2} pl={2}>
             {tags.map((tag, idx) => (
               <Typography key={idx} sx={{ "&:hover": "underline" }}>
@@ -63,7 +79,7 @@ const FeaturedCard = ({ prod }) => {
     </Grid>
   );
 };
-FeaturedCard.propTypes = {
+TrendingProductCard.propTypes = {
   prod: PropTypes.object,
 };
-export default FeaturedCard;
+export default TrendingProductCard;

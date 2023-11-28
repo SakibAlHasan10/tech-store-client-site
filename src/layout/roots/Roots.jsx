@@ -4,7 +4,7 @@ import Footer from "../../Components/Footer/Footer";
 
 const Roots = () => {
     return (
-        <div>
+        <div className="bg-slate-200">
             <div className="min-h-screen">
 
             <Navbar/>

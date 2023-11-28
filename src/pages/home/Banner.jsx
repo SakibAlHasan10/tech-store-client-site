@@ -1,7 +1,7 @@
 
 const Banner = () => {
     return (
-        <div className="bg-[url('https://kitpro.site/lawncare/wp-content/uploads/sites/193/2023/09/young-woman-gardener-caring-plants-treating-flower-2023-01-31-23-19-44-utc-2.jpg')] bg-cover h-[100vh] w-full">
+        <div className="bg-gradient-to-tl to-[#1962A6] from-0% rotate-[135]  from-[#6EB846] to-100%  bg-cover hover:bg-gradient-to-br h-[100vh] opacity-80 duration-500 transition hover:transition hover:delay-200 hover:duration-700 w-full">
             
         </div>
     );
