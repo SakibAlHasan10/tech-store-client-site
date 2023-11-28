@@ -14,6 +14,7 @@ import MyProfile from "../../pages/Dashboard/myProfile/MyProfile";
 import ModeratorPrivateRoute from "../moderatorPrivateRoute/ModeratorPrivateRoute";
 import ProductDetails from "../../pages/ProductDetails/ProductDetails";
 import UpdateProduct from "../../pages/Dashboard/User/myProducts/updateProduct";
+import ManageUser from "../../pages/Dashboard/Admin/manageUser/ManageUser";
 
 const router = createBrowserRouter([
   {
@@ -30,9 +31,9 @@ const router = createBrowserRouter([
         element: <Products />,
       },
       {
-        path:"/details/:id",
-        element:<ProductDetails/>
-      }
+        path: "/details/:id",
+        element: <ProductDetails />,
+      },
     ],
   },
   {
@@ -65,8 +66,8 @@ const router = createBrowserRouter([
         element: <MyProducts />,
       },
       {
-        path:"update/:id",
-        element:<UpdateProduct/>
+        path: "update/:id",
+        element: <UpdateProduct />,
       },
       // Moderators route
       {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
         ),
       },
       //   Admin Route
+      {
+        path: "manage-user",
+        element: <ManageUser />,
+      },
     ],
   },
 ]);

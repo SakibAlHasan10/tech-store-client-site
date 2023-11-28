@@ -73,7 +73,7 @@ function Navbar() {
   };
   window.addEventListener("scroll", changeNavColor);
   // console.log(colorChange)
-  console.log(user?.photoURL);
+  // console.log(user?.photoURL);
   return (
     <AppBar
       position="fixed"

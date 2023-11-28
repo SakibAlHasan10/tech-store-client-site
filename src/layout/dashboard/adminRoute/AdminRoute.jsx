@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import PropTypes from "prop-types";
 import List from "@mui/material/List";
@@ -10,8 +9,8 @@ import ListItemText from "@mui/material/ListItemText";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link as RouterLink, MemoryRouter } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
-import { Add, ProductionQuantityLimits } from "@mui/icons-material";
-
+import { ProductionQuantityLimits } from "@mui/icons-material";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 function Router(props) {
   const { children } = props;
   if (typeof window === "undefined") {
@@ -63,9 +62,9 @@ const AdminRoute = () => {
             icon={<AccountBoxIcon />}
           />
           <ListItemLink
-            to="/dashboard/add-product"
+            to="/dashboard/manage-user"
             primary="Add Products"
-            icon={<Add />}
+            icon={<ManageAccountsIcon />}
           />
           <ListItemLink
             to="/dashboard/my-products"

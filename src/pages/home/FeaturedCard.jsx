@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
