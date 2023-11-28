@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
-import useAllProduct from "../../../../hooks/fetchaAlProduct/useAllProduct";
+// import useAllProduct from "../../../../hooks/fetchaAlProduct/useAllProduct";
 
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -12,6 +12,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import useAuth from "../../../../hooks/authHook/useAuth";
+import useGetUserAllProduct from "../../../../hooks/useGetUserAllProduct";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,8 +36,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const MyProducts = () => {
   const axiosSecure = useAxiosSecure();
-  const [allProduct, , refetch] = useAllProduct();
-
+  const { user } = useAuth();
+  const email = user?.email;
+  console.log(email);
+  // const [allProduct, , refetch] = useAllProduct();
+  const [myProducts, , refetch] = useGetUserAllProduct();
+  console.log(myProducts);
   // product deleted
   const handleDeleteProduct = async (id) => {
     axiosSecure.delete(`/products/${id}`).then((res) => {
@@ -59,7 +65,7 @@ const MyProducts = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allProduct.map((product, idx) => (
+          {myProducts.map((product, idx) => (
             <StyledTableRow key={product._id}>
               <StyledTableCell align="center">{idx + 1}</StyledTableCell>
               <StyledTableCell align="left" component="th" scope="row">
@@ -77,7 +83,7 @@ const MyProducts = () => {
                 <Button
                   size="small"
                   variant="contained"
-                  onClick={()=>handleDeleteProduct(product._id)}
+                  onClick={() => handleDeleteProduct(product._id)}
                 >
                   Delete
                 </Button>
