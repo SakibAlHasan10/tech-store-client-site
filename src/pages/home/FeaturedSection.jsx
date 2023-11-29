@@ -17,6 +17,8 @@ const FeaturedSection = () => {
   if (isLoading) {
     return <p>loading...</p>;
   }
+  const active = featuredProduct?.filter(prod=>prod?.status==="Accepted")
+
   // console.log(featuredProduct);
   return (
     <Container>
@@ -33,7 +35,7 @@ const FeaturedSection = () => {
         mt={3}
         columnSpacing={{ xs: 1, sm: 2}}
       >
-        {featuredProduct?.slice(0, 4).map((prod) => (
+        {active&&active?.slice(0, 4).map((prod) => (
           <FeaturedCard key={prod?._id} prod={prod}></FeaturedCard>
         ))}
       </Grid>

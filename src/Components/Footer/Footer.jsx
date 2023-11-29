@@ -17,7 +17,7 @@ const Footer = () => {
     <Grid bgcolor={"#023047"} mt={6}>
       <Container>
         <Grid container pt={8} justifyContent={"space-between"}>
-          <Grid item>
+          <Grid item md={4} sm={12} sx={{ml:{xs:"100px",sm:"285px", md:"0"}, mb:{xs:"20px", md:"0"}}}>
             <Box
               component="img"
               sx={{
@@ -62,7 +62,7 @@ const Footer = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item sx={{ textAlign: "center" }}>
+          <Grid item md={4} sm={12} sx={{ml:{xs:"20px",md:"0"}, mb:{xs:"20px", md:"0"}, textAlign: "center" }}>
             <Typography sx={{ color: "#fff", fontSize: "20px" }}>
               Explore Content
             </Typography>
@@ -96,8 +96,8 @@ const Footer = () => {
             </Typography>
             <Typography sx={{ fontSize:"16px", color:"#9b9898"}}>Canada</Typography>
           </Grid>
-          <Grid item>
-            <Typography sx={{ color: "#fff", fontSize: "20px" }}>
+          <Grid item md={4} sm={12} sx={{ml:{xs:"70px",sm:"250px", md:"0"}, pl:{md:"140px"}}}>
+            <Typography sx={{ml:{sm:"55px"}, color: "#fff", fontSize: "20px", textAlign:{xs:"center", sm:"left"} }}>
               Contact with
             </Typography>
             <IconButton

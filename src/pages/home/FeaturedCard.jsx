@@ -18,6 +18,7 @@ const FeaturedCard = ({ prod }) => {
   const { user } = useAuth();
   const { productName, vote: like, tags, productImage, owner, _id } = prod;
   // console.log(owner[0]?.email===user?.email)
+  // console.log(tags)
   // upVote
   const handleUpVote = (id) => {
     if (user === null) {

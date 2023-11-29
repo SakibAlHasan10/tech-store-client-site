@@ -33,7 +33,7 @@ const Signup = () => {
       >
         {"Copyright © "}
         <Link color="inherit" href="/">
-          ProductHunt
+          TechStore
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}

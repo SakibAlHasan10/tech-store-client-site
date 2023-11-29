@@ -1,7 +1,7 @@
 # TechStore
 
 
-- [TechStore live link:](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md)
+- [TechStore live link:](https://creative-technology-f4fea.web.app)
 
 - This app uses user see tech related product.
 - This app uses user upload tech product.

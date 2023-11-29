@@ -32,7 +32,7 @@ const Login = () => {
       >
         {"Copyright © "}
         <Link color="inherit" href="https://mui.com/">
-          Booking
+          TechStor
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}
@@ -60,7 +60,7 @@ const Login = () => {
         if (error) {
           setErrorText("please enter valid email and password");
         }
-        console.log(error);
+        // console.log(error);
       });
   };
   return (

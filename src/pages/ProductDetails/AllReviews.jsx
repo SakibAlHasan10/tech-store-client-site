@@ -1,5 +1,5 @@
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-
+import ReactStars from "react-rating-stars-component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import PropTypes from "prop-types";
 // Import Swiper styles
@@ -57,11 +57,19 @@ const AllReviews = ({ productReviews }) => {
                     variant="h6"
                     sx={{ color: "#fb8500", mb: "10px" }}
                   >
-                    {review.name}
+                    {review?.name}
                   </Typography>
-                  <Typography>{review.rating}</Typography>
+                  <Grid sx={{ height: "40px", ml:{md:"150px", sm:"50px"} }}>
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      size={24}
+                      value={review?.rating}
+                      activeColor="#ffd700"
+                    />
+                  </Grid>
                   <Typography sx={{ mt: "10px" }}>
-                    {review.description}
+                    {review?.description}
                   </Typography>
                 </Grid>
               </Grid>

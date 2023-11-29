@@ -16,13 +16,23 @@ const TrendingProductsSection = () => {
   if (isLoading) {
     return <p>loading...</p>;
   }
+  const active = trendingProduct?.filter((prod) => prod?.status === "Accepted");
+
   // console.log(featuredProduct);
   return (
     <Container>
-      <Typography mt={12} variant="h4" sx={{
-    background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
-    WebkitBackgroundClip: "text",
-    color: "transparent", fontWeight: "700", textAlign:"center" }}>
+      <Typography
+        mt={12}
+        variant="h4"
+        sx={{
+          background: "linear-gradient(to right bottom, #1962A6, #6EB846)",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          color: "transparent",
+          fontWeight: "700",
+          textAlign: "center",
+        }}
+      >
         Trending Products
       </Typography>
       <Grid
@@ -31,14 +41,24 @@ const TrendingProductsSection = () => {
         mt={3}
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       >
-        {trendingProduct?.slice(0, 6).map((prod) => (
-          <TrendingProductCard key={prod?._id} prod={prod}></TrendingProductCard>
+        {active&&active?.slice(0, 6).map((prod) => (
+          <TrendingProductCard
+            key={prod?._id}
+            prod={prod}
+          ></TrendingProductCard>
         ))}
       </Grid>
       <Grid sx={{ mt: "60px", textAlign: "center" }}>
         <Link to={"/products"}>
-          <Button variant="contained" sx={{color: 'white',
-    background: 'linear-gradient(to right bottom, #1962A6, #6EB846)',}}>Show All Products</Button>
+          <Button
+            variant="contained"
+            sx={{
+              color: "white",
+              background: "linear-gradient(to right bottom, #1962A6, #6EB846)",
+            }}
+          >
+            Show All Products
+          </Button>
         </Link>
       </Grid>
     </Container>
