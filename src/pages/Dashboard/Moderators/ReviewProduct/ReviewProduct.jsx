@@ -115,7 +115,7 @@ const ReviewProduct = () => {
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Button
-                  disabled={product.fe === "true"}
+                  disabled={product.status === "Accepted"}
                   size="small"
                   variant="contained"
                   onClick={() => handleProductAccept(product?._id)}
@@ -171,7 +171,7 @@ const ReviewProduct = () => {
               </StyledTableCell>
               <StyledTableCell align="center">
                 <Button
-                  disabled={product.status === "Reject"}
+                  disabled={product.status === "Rejected"}
                   size="small"
                   variant="contained"
                   onClick={() => handleProductReject(product?._id)}

@@ -19,7 +19,10 @@ const TrendingProductsSection = () => {
   // console.log(featuredProduct);
   return (
     <Container>
-      <Typography mt={15} variant="h4" sx={{ fontWeight: "700", textAlign:"center" }}>
+      <Typography mt={12} variant="h4" sx={{
+    background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    color: "transparent", fontWeight: "700", textAlign:"center" }}>
         Trending Products
       </Typography>
       <Grid
@@ -34,7 +37,8 @@ const TrendingProductsSection = () => {
       </Grid>
       <Grid sx={{ mt: "60px", textAlign: "center" }}>
         <Link to={"/products"}>
-          <Button variant="contained">Show All Products</Button>
+          <Button variant="contained" sx={{color: 'white',
+    background: 'linear-gradient(to right bottom, #1962A6, #6EB846)',}}>Show All Products</Button>
         </Link>
       </Grid>
     </Container>

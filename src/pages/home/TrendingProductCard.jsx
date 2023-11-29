@@ -1,33 +1,21 @@
 import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Grid } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
 import useAxiosSecure from "../../hooks/axiosSecure/useAxiosSecure";
 import toast from "react-hot-toast";
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ReactStars from "react-rating-stars-component";
 const TrendingProductCard = ({ prod }) => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { productName, vote: like, tags, productImage, owner, _id } = prod;
-  console.log(like + 1);
+  //   console.log(like + 1);
   // upVote
   const handleUpVote = (id) => {
     const vote = { vote: like + 1 };
@@ -51,28 +39,67 @@ const TrendingProductCard = ({ prod }) => {
           image={productImage}
           alt="Paella dish"
         />
-        <Grid px={3} py={2}>
-          <CardContent>
-            <Typography variant="h5" color="text.secondary">
-              <Link to={`/details/${_id}`}>{productName.slice(0, 25)}</Link>
-            </Typography>
-          </CardContent>
-
-          <IconButton
-            onClick={() => handleUpVote(_id)}
-            disabled={owner[0]?.email === user?.email}
-            aria-label="add to favorites"
+        <Grid px={3} pt={3}>
+          <Typography
+            variant="h6"
+            sx={{ fontSize: "22px", "&:hover": { color: "#fb8500" } }}
+            color="text.secondary"
           >
-            <FavoriteIcon />
-          </IconButton>
+            <Link to={`/details/${_id}`}>{productName.slice(0, 24)}</Link>
+          </Typography>
 
-          {like}
-          <Grid container gap={2} mt={2} pl={2}>
+          <Grid container gap={"4px"} mt={1} pl={1}>
+            Tags:{" "}
             {tags.map((tag, idx) => (
-              <Typography key={idx} sx={{ "&:hover": "underline" }}>
-                <NavLink to={`${tag.text}`}>#{tag.text}</NavLink>
+              <Typography
+                key={idx}
+                sx={{ color: "#000", fontSize: "14px", mt: "2px" }}
+              >
+                <NavLink className={" bg-[#caf0f8] p-1"} to={`${tag.text}`}>
+                  {tag.text}
+                </NavLink>
               </Typography>
             ))}
+          </Grid>
+          <Grid sx={{ height: "40px" }}>
+            <ReactStars
+              count={5}
+              // onChange={ratingChanged}
+              size={24}
+              value={like}
+              activeColor="#ffd700"
+            />
+          </Grid>
+          <Grid container gap={2} justifyContent={"center"}>
+            <Grid item>
+              <IconButton
+              onClick={()=>handleUpVote(_id)}
+                sx={{
+                  mr: "4px",
+                  color: "#3a86ff",
+                  "&:hover": { color: "#219ebc" },
+                }}
+                disabled={owner && owner[0]?.email === user?.email}
+                aria-label="add to favorites"
+              >
+                <ThumbUpOffAltIcon />
+              </IconButton>
+              {like}
+            </Grid>
+            <Grid item>
+              <IconButton
+                sx={{
+                  mr: "4px",
+                  color: "#e76f51",
+                  "&:hover": { color: "#219ebc" },
+                }}
+                disabled={owner && owner[0]?.email === user?.email}
+                aria-label="add to favorites"
+              >
+                <ThumbDownOffAltIcon />
+              </IconButton>
+              {like}
+            </Grid>
           </Grid>
         </Grid>
       </Card>

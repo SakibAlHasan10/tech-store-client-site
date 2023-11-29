@@ -37,7 +37,7 @@ const image_hosting_key = import.meta.env.VITE_IMG_HOST;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const UpdateProduct = () => {
-    const {id}=useParams()
+  const { id } = useParams();
   const [singleProduct] = useSingleProduct(id);
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
@@ -45,7 +45,9 @@ const UpdateProduct = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [tags, setTags] = useState([]);
-  console.log(singleProduct)
+  console.log(singleProduct);
+  const { productName, productDescription, productImage,status, vote, links, featured, tags:like } =
+    singleProduct;
   const handleFile = (e) => {
     setImageFile(e.target.files[0]);
   };
@@ -73,30 +75,48 @@ const UpdateProduct = () => {
   };
 
   //   product form
-  console.log(imageFile);
+  console.log(imageFile || "hello");
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const productName = data.get("productName");
-    // const productImage = imageFile;
-    // data.get("productPhoto");
-    const productDescription = data.get("productDescription");
-    const links = data.get("external_Links");
+    const productName = data.get("productName") || productName;
+    const productDescription =
+      data.get("productDescription") || productDescription;
+    const links = data.get("external_Links") || links;
     const name = user?.displayName;
     const email = user?.email;
     const photo = user.photoURL;
+    if (imageFile) {
+      const res = await axiosPublic.post(
+        image_hosting_api,
+        { image: imageFile },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    const res = await axiosPublic.post(
-      image_hosting_api,
-      { image: imageFile },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      if (res.data.success) {
+        const product = {
+          productName,
+          productDescription,
+          links,
+          featured: featured || false,
+          status: status||"Pending",
+          vote: vote,
+          productImage: res.data.data.display_url || "Not available",
+          tags:tags||like,
+          owner: { name, email, photo },
+        };
+        console.log(product);
+        // const pro = await axiosSecure.post("/products", product);
+        // if (pro.statusText === "OK") {
+        //   toast.success("Product saved successfully");
+        //   navigate("/dashboard/my-products");
+        // }
       }
-    );
-
-    if (res.data.success) {
+    } else {
       const product = {
         productName,
         productDescription,
@@ -104,15 +124,16 @@ const UpdateProduct = () => {
         featured: false,
         status: "Pending",
         vote: 0,
-        productImage: res.data.data.display_url || "Not available",
-        tags,
+        productImage: productImage,
+        tags:tags||like,
         owner: { name, email, photo },
       };
-      const pro = await axiosSecure.post("/products", product);
-      if (pro.statusText === "OK") {
-        toast.success("Product saved successfully");
-        navigate("/dashboard/my-products");
-      }
+      console.log(product);
+      // const pro = await axiosSecure.post("/products", product);
+      // if (pro.statusText === "OK") {
+      //   toast.success("Product saved successfully");
+      //   navigate("/dashboard/my-products");
+      // }
     }
   };
   return (
@@ -130,7 +151,7 @@ const UpdateProduct = () => {
                 required
                 id="productName"
                 label="Product Name"
-                defaultValue={singleProduct?.productName}
+                defaultValue={productName}
                 name="productName"
               />
             </Grid>
@@ -142,7 +163,7 @@ const UpdateProduct = () => {
                 name="productDescription"
                 multiline
                 required
-                defaultValue={singleProduct?.productDescription}
+                defaultValue={productDescription}
                 fullWidth
                 rows={4}
               />
@@ -212,7 +233,7 @@ const UpdateProduct = () => {
                 label="Add External Links"
                 required
                 name="external_Links"
-                defaultValue={singleProduct?.links}
+                defaultValue={links}
                 fullWidth
               />
             </Grid>

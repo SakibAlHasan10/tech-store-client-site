@@ -15,6 +15,7 @@ import { NavLink } from "react-router-dom";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/authHook/useAuth";
 import { Grid } from "@mui/material";
+import logo from "../../assets/logo11.png"
 const pages = (
   <>
     <NavLink
@@ -32,7 +33,11 @@ const pages = (
     <NavLink
       to={`/products`}
       className={({ isActive, isPending }) =>
-        isActive ? "active text-[#fb8500] border-b-2 border-[#fb8500] pb-1" : isPending ? "pending" : ""
+        isActive
+          ? "active text-[#fb8500] border-b-2 border-[#fb8500] pb-1"
+          : isPending
+          ? "pending"
+          : ""
       }
     >
       Products
@@ -78,6 +83,8 @@ function Navbar() {
     <AppBar
       position="fixed"
       sx={{
+        pt:"8px",
+        height:"80px",
         bgcolor: `${colorChange ? "#023047" : "#fff0"}`,
         boxShadow: "none",
         color: "#023047",
@@ -139,7 +146,7 @@ function Navbar() {
             alignItems={"center"}
           >
             <Grid item justifyContent="flex-center" alignItems={"center"}>
-              <Typography
+              {/* <Typography
                 variant="h5"
                 component="h5"
                 width={45}
@@ -159,7 +166,17 @@ function Navbar() {
                 }}
               >
                 P
-              </Typography>
+              </Typography> */}
+              <Box
+                component="img"
+                sx={{
+                  mr:"10px",
+                  height: 60,
+                  width: 60,
+                }}
+                alt="The house from the offer."
+                src={logo}
+              />
             </Grid>
             <Grid sx={{ display: "flex" }}>
               <Grid item>
@@ -174,7 +191,7 @@ function Navbar() {
                     textDecoration: "none",
                   }}
                 >
-                  Product
+                  Tech
                 </Typography>
               </Grid>
               <Grid item>
@@ -189,7 +206,7 @@ function Navbar() {
                     textDecoration: "none",
                   }}
                 >
-                  Hunt
+                  Store
                 </Typography>
               </Grid>
             </Grid>

@@ -62,7 +62,17 @@ const ProductDetails = () => {
     return <p>loading...</p>;
   }
 
-  console.log(productReviews);
+  // console.log(productReviews);
+  const handleProductReport = (id) => {
+    const status = { report: true };
+    axiosSecure.patch(`/products/${id}`, status).then((res) => {
+        console.log(id, res.data);
+
+      if (res.data._id) {
+        toast.success("your report successfully");
+      }
+    });
+  };
   return (
     <Box>
       <Grid bgcolor={"#fb8500"} height={100}></Grid>
@@ -72,7 +82,9 @@ const ProductDetails = () => {
           mt={10}
           sx={{ p: 5, borderRadius: "15px", pt: 10 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: "800", color: "#000" }}>
+          <Typography variant="h4" sx={{ fontWeight: "800", background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    color: "transparent", }}>
             {productName}
           </Typography>
           <Typography
@@ -95,7 +107,9 @@ const ProductDetails = () => {
               {like}
             </Grid>
             <Grid item>
-              <IconButton>
+              <IconButton 
+              onClick={()=>handleProductReport(_id)}
+              >
                 <ReportIcon />
               </IconButton>
             </Grid>
@@ -119,7 +133,9 @@ const ProductDetails = () => {
           <Grid pl={1} mt={2}>
             <Button onClick={handleOpen}>Add Review</Button>
           </Grid>
-          <Typography variant="h5" pl={2} my={4} sx={{textAlign:"center"}}>
+          <Typography variant="h5" pl={2} my={4} sx={{textAlign:"center", background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    color: "transparent",}}>
             TESTIMONIALS
           </Typography>
           {productReviews.length > 0 ? (
