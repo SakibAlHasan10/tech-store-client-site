@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
@@ -14,21 +14,26 @@ import useAxiosSecure from "../../hooks/axiosSecure/useAxiosSecure";
 
 const FeaturedCard = ({ prod }) => {
   const axiosSecure = useAxiosSecure();
-
+  const navigate = useNavigate();
   const { user } = useAuth();
-  const { productName, vote:like, tags, productImage, owner, _id } = prod;
+  const { productName, vote: like, tags, productImage, owner, _id } = prod;
   // console.log(owner[0]?.email===user?.email)
   // upVote
   const handleUpVote = (id) => {
-    const vote = { vote: like + 1 };
-    axiosSecure.patch(`/products/${id}`, vote).then((res) => {
-      console.log(id, res.data, vote + 1);
+    if (user === null) {
+      navigate("/login");
+      return;
+    } else {
+      const vote = { vote: like + 1 };
+      axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+        console.log(id, res.data, vote + 1);
 
-      if (res.data._id) {
-        toast.success("your vote successfully");
-        // refetch();
-      }
-    });
+        if (res.data._id) {
+          toast.success("your vote successfully");
+          // refetch();
+        }
+      });
+    }
   };
   return (
     <Grid item container xs={12} sm={6} md={3}>
@@ -74,7 +79,7 @@ const FeaturedCard = ({ prod }) => {
           <Grid container gap={2} justifyContent={"center"}>
             <Grid item>
               <IconButton
-              onClick={()=>handleUpVote(_id)}
+                onClick={() => handleUpVote(_id)}
                 sx={{
                   mr: "4px",
                   color: "#3a86ff",

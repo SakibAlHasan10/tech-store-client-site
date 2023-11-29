@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/authHook/useAuth";
 import useAxiosSecure from "../../hooks/axiosSecure/useAxiosSecure";
 import toast from "react-hot-toast";
@@ -14,19 +14,25 @@ import ReactStars from "react-rating-stars-component";
 const TrendingProductCard = ({ prod }) => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const navigate = useNavigate()
   const { productName, vote: like, tags, productImage, owner, _id } = prod;
   //   console.log(like + 1);
   // upVote
   const handleUpVote = (id) => {
-    const vote = { vote: like + 1 };
-    axiosSecure.patch(`/products/${id}`, vote).then((res) => {
-      console.log(id, res.data, vote + 1);
+    if (user === null) {
+      navigate("/login");
+      return;
+    } else {
+      const vote = { vote: like + 1 };
+      axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+        console.log(id, res.data, vote + 1);
 
-      if (res.data._id) {
-        toast.success("your vote successfully");
-        // refetch();
-      }
-    });
+        if (res.data._id) {
+          toast.success("your vote successfully");
+          // refetch();
+        }
+      });
+    }
   };
   return (
     <Grid item container xs={12} sm={6} md={4}>

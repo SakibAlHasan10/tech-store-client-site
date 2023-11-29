@@ -3,14 +3,17 @@ import { Verified } from "@mui/icons-material";
 import Payment from "./Payment";
 import React from "react";
 import useGetUser from "../../../hooks/getUser/useGetUser";
-
+import { Elements} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+// import CheckoutForm from "./CheckoutForm";
+const stripePromise = loadStripe(import.meta.env.VITE_PK);
 const MyProfile = () => {
   const [currentUser] = useGetUser();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   // const email = {email:user?.email}
 
-  const { photo, name, email, status } = currentUser;
+  const { photo, name, email, status, _id, role } = currentUser;
   // console.log(Object.keys(CurrentUser).join(','));
   const isNonVerified = status === "non-verified";
   // console.log(isNonVerified)
@@ -25,6 +28,9 @@ const MyProfile = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          bgcolor:"#d1cdcd",
+          borderRadius:"10px",
+          py:"20px"
         }}
       >
         <Box
@@ -49,19 +55,27 @@ const MyProfile = () => {
             Verified <Verified />
           </Typography>
         )}
-        <Typography component="" mt={2} variant="h5" sx={{ fontWeight: "800" }}>
-          {name}
+        
+        <Typography component="" mt={1} variant="h6" sx={{ fontWeight: "700" }}>
+          name: {name}
         </Typography>
-        <Typography component="" my={2} variant="h6" sx={{ fontWeight: "700" }}>
-          {email}
+        
+        <Typography component="" my={1} variant="body1" sx={{ fontWeight: "600" }}>
+          email: {email}
+        </Typography>
+        <Typography component="" my={1} variant="body2" sx={{ fontWeight: "600" }}>
+          Your role: {role}
         </Typography>
         {isNonVerified && (
-          <Button variant="contained" onClick={handleOpen}>
-            Subscribe only $20
+          <Button variant="contained" sx={ {my:"10px"}} onClick={handleOpen}>
+            Premium Subscription $50
           </Button>
         )}
+        <Elements stripe={stripePromise}>
+      <Payment open={open} setOpen={setOpen} id={_id} />
+        
+      </Elements>
       </Container>
-      <Payment open={open} setOpen={setOpen} />
     </Container>
   );
 };

@@ -15,12 +15,14 @@ import ModeratorPrivateRoute from "../moderatorPrivateRoute/ModeratorPrivateRout
 import ProductDetails from "../../pages/ProductDetails/ProductDetails";
 import UpdateProduct from "../../pages/Dashboard/User/myProducts/updateProduct";
 import ManageUser from "../../pages/Dashboard/Admin/manageUser/ManageUser";
+import AdminPrivateRoute from "../adminPrivateRoute/AdminPrivateRoute";
+import ErrorPage from "../../layout/roots/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Roots />,
-    // errorElement
+    errorElement:<ErrorPage/>,
     children: [
       {
         path: "/",
@@ -32,7 +34,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/details/:id",
-        element: <ProductDetails />,
+        element: (
+          <PrivateRoute>
+            <ProductDetails />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -55,19 +61,35 @@ const router = createBrowserRouter([
       // user route
       {
         path: "",
-        element: <MyProfile />,
+        element: (
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "add-product",
-        element: <AddProduct />,
+        element: (
+          <PrivateRoute>
+            <AddProduct />
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-products",
-        element: <MyProducts />,
+        element: (
+          <PrivateRoute>
+            <MyProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "update/:id",
-        element: <UpdateProduct />,
+        element: (
+          <PrivateRoute>
+            <UpdateProduct />
+          </PrivateRoute>
+        ),
       },
       // Moderators route
       {
@@ -93,7 +115,13 @@ const router = createBrowserRouter([
       //   Admin Route
       {
         path: "manage-user",
-        element: <ManageUser />,
+        element: (
+          <PrivateRoute>
+            <AdminPrivateRoute>
+              <ManageUser />
+            </AdminPrivateRoute>
+          </PrivateRoute>
+        ),
       },
     ],
   },
