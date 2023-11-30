@@ -16,7 +16,7 @@ const FeaturedCard = ({ prod }) => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { productName, vote: like, tags, productImage, owner, _id } = prod;
+  const { productName, vote: like, tags, productImage, owner, _id, downVote:down } = prod;
   // console.log(owner[0]?.email===user?.email)
   // console.log(tags)
   // upVote
@@ -31,6 +31,22 @@ const FeaturedCard = ({ prod }) => {
 
         if (res.data._id) {
           toast.success("your vote successfully");
+          // refetch();
+        }
+      });
+    }
+  };
+  const handleDownVote = (id) => {
+    if (user === null) {
+      navigate("/login");
+      return;
+    } else {
+      const vote = { downVote: down + 1 };
+      axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+        console.log(id, res.data, vote + 1);
+
+        if (res.data._id) {
+          toast.success("your downVote successfully");
           // refetch();
         }
       });
@@ -95,6 +111,7 @@ const FeaturedCard = ({ prod }) => {
             </Grid>
             <Grid item>
               <IconButton
+              onClick={() => handleDownVote(_id)}
                 sx={{
                   mr: "4px",
                   color: "#e76f51",
@@ -105,7 +122,7 @@ const FeaturedCard = ({ prod }) => {
               >
                 <ThumbDownOffAltIcon />
               </IconButton>
-              {0}
+              {down}
             </Grid>
           </Grid>
         </Grid>

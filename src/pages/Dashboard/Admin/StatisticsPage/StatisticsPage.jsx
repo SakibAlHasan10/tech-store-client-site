@@ -59,7 +59,7 @@ const StatisticsPage = () => {
   };
   return (
     <div className="max-w-screen-xl mx-auto md:px-8 mb-10 pb-16">
-      hello
+   
       <PieChart width={400} height={400} className="mx-auto  ">
         <Pie
           data={data}

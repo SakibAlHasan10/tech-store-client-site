@@ -8,9 +8,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import useAxiosSecure from "../../hooks/axiosSecure/useAxiosSecure";
 import useAuth from "../../hooks/authHook/useAuth";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import toast from "react-hot-toast";
 import ReportIcon from "@mui/icons-material/Report";
 import { useState } from "react";
@@ -32,11 +33,12 @@ const ProductDetails = () => {
     tags,
     _id,
     links,
+    downVote: down,
   } = singleProduct;
   console.log(singleProduct);
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  console.log(like + 1);
+  // console.log(like + 1);
   // upVote
   const handleUpVote = (id) => {
     const vote = { vote: like + 1 };
@@ -49,6 +51,23 @@ const ProductDetails = () => {
       }
     });
   };
+  const handleDownVote = (id) => {
+    if (user === null) {
+      // navigate("/login");
+      return;
+    } else {
+      const vote = { downVote: down + 1 };
+      axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+        console.log(id, res.data, vote + 1);
+
+        if (res.data._id) {
+          toast.success("your downVote successfully");
+          // refetch();
+        }
+      });
+    }
+  };
+  // handle downVote
   // get review
   const { isLoading, data: productReviews = [] } = useQuery({
     queryKey: ["review", _id],
@@ -59,7 +78,7 @@ const ProductDetails = () => {
     },
   });
   if (isLoading) {
-    return <p className="text-center mt-10">loading...</p>;
+    return <p>loading...</p>;
   }
 
   // console.log(productReviews);
@@ -101,25 +120,48 @@ const ProductDetails = () => {
           >
             {productDescription}
           </Typography>
-          <Grid container gap={1}>
+          {/* upVote downVote */}
+          <Grid container gap={2}>
             <Grid item>
               <IconButton
                 onClick={() => handleUpVote(_id)}
+                sx={{
+                  mr: "4px",
+                  color: "#3a86ff",
+                  "&:hover": { color: "#219ebc" },
+                }}
                 disabled={owner && owner[0]?.email === user?.email}
                 aria-label="add to favorites"
               >
-                <FavoriteIcon />
+                <ThumbUpOffAltIcon />
               </IconButton>
-
               {like}
             </Grid>
             <Grid item>
-              <IconButton onClick={() => handleProductReport(_id)}>
+              <IconButton
+                onClick={() => handleDownVote(_id)}
+                sx={{
+                  mr: "4px",
+                  color: "#e76f51",
+                  "&:hover": { color: "#219ebc" },
+                }}
+                disabled={owner && owner[0]?.email === user?.email}
+                aria-label="add to favorites"
+              >
+                <ThumbDownOffAltIcon />
+              </IconButton>
+              {down}
+            </Grid>
+            {/* report */}
+            <Grid item>
+              <IconButton
+                onClick={() => handleProductReport(_id)}
+                disabled={owner && owner[0]?.email === user?.email}
+              >
                 <ReportIcon />
               </IconButton>
             </Grid>
           </Grid>
-
           <Box
             component={"img"}
             sx={{ mt: "10px", borderRadius: "15px", width: { sm: "80%" } }}

@@ -109,6 +109,7 @@ const AddProduct = () => {
         featured:false,
         status:"Pending",
         vote:0,
+        downVote:0,
         productImage: res.data.data.display_url || "Not available",
         tags,
         owner: { name, email, photo },

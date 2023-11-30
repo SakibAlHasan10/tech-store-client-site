@@ -7,9 +7,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
-import toast from "react-hot-toast";
-import useGetAllUser from "../../../../hooks/getAllUser/useGetAllUser";
+// import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
+// import toast from "react-hot-toast";
+// import useGetAllUser from "../../../../hooks/getAllUser/useGetAllUser";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,34 +32,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ManageCoupon = () => {
-  const axiosSecure = useAxiosSecure();
-  const [allUser, , refetch] = useGetAllUser();
+//   const axiosSecure = useAxiosSecure();
+//   const [allUser, , refetch] = useGetAllUser();
   //   console.log(allUser);
 
   //   product status accept
-  const handleUserMakeModerator = (id) => {
-    const role = { role: "Moderator" };
-    axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
-      //   console.log(id, res.data);
+//   const handleUserMakeModerator = (id) => {
+//     const role = { role: "Moderator" };
+//     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
+//       //   console.log(id, res.data);
 
-      if (res.data._id) {
-        toast.success("Product accepted successfully");
-        refetch();
-      }
-    });
-  };
+//       if (res.data._id) {
+//         toast.success("Product accepted successfully");
+//         refetch();
+//       }
+//     });
+//   };
   //   product status reject
-  const handleUserMakeAdmin = (id) => {
-    const role = { role: "Admin" };
-    axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
-      //   console.log(id, res.data);
+//   const handleUserMakeAdmin = (id) => {
+//     const role = { role: "Admin" };
+//     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
+//       //   console.log(id, res.data);
 
-      if (res.data._id) {
-        toast.success("Product rejected successfully");
-        refetch();
-      }
-    });
-  };
+//       if (res.data._id) {
+//         toast.success("Product rejected successfully");
+//         refetch();
+//       }
+//     });
+//   };
   //   product status reject
   //   const handleProductFeatured = (id) => {
   //     const featured = { featured: true };
@@ -94,46 +94,26 @@ const ManageCoupon = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allUser.map((user, idx) => (
-              <StyledTableRow key={user._id}>
-                <StyledTableCell align="center">{idx + 1}</StyledTableCell>
+            {/* {allUser.map((user, idx) => ( */}
+              <StyledTableRow 
+            //   key={user._id}
+              >
+                <StyledTableCell align="center">
+                    {/* {idx + 1} */}
+                    </StyledTableCell>
                 <StyledTableCell align="left" component="th" scope="row">
-                  {user.name}
+                  {/* {user.name} */}
                 </StyledTableCell>
-                <StyledTableCell align="left">{user.email}</StyledTableCell>
-                <StyledTableCell align="center">{user.role}</StyledTableCell>
-                {/* <StyledTableCell align="center">
-                <Button
-                  disabled={user.featured === true}
-                  size="small"
-                  variant="contained"
-                  onClick={() => handleProductFeatured(user?._id)}
-                >
-                  Featured
-                </Button>
-              </StyledTableCell> */}
+                <StyledTableCell align="left"></StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
                 <StyledTableCell align="center">
-                  <Button
-                    disabled={user.role === "Moderator"}
-                    size="small"
-                    variant="contained"
-                    onClick={() => handleUserMakeModerator(user?._id)}
-                  >
-                    Make Moderator
-                  </Button>
+                  
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <Button
-                    disabled={user.role === "Admin"}
-                    size="small"
-                    variant="contained"
-                    onClick={() => handleUserMakeAdmin(user?._id)}
-                  >
-                    Make Admin
-                  </Button>
+                  
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
+            {/* ))} */}
           </TableBody>
         </Table>
       </TableContainer>

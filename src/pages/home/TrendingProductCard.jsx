@@ -15,7 +15,7 @@ const TrendingProductCard = ({ prod }) => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate()
-  const { productName, vote: like, tags, productImage, owner, _id } = prod;
+  const { productName, vote: like, tags, productImage, owner, _id,downVote:down } = prod;
   //   console.log(like + 1);
   // upVote
   const handleUpVote = (id) => {
@@ -29,6 +29,23 @@ const TrendingProductCard = ({ prod }) => {
 
         if (res.data._id) {
           toast.success("your vote successfully");
+          // refetch();
+        }
+      });
+    }
+  };
+
+  const handleDownVote = (id) => {
+    if (user === null) {
+      navigate("/login");
+      return;
+    } else {
+      const vote = { downVote: down + 1 };
+      axiosSecure.patch(`/products/${id}`, vote).then((res) => {
+        console.log(id, res.data, vote + 1);
+
+        if (res.data._id) {
+          toast.success("your downVote successfully");
           // refetch();
         }
       });
@@ -94,6 +111,7 @@ const TrendingProductCard = ({ prod }) => {
             </Grid>
             <Grid item>
               <IconButton
+              onClick={() => handleDownVote(_id)}
                 sx={{
                   mr: "4px",
                   color: "#e76f51",
@@ -104,7 +122,7 @@ const TrendingProductCard = ({ prod }) => {
               >
                 <ThumbDownOffAltIcon />
               </IconButton>
-              {0}
+              {down}
             </Grid>
           </Grid>
         </Grid>
