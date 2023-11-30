@@ -23,6 +23,8 @@ import useAxiosPublic from "../../../../hooks/axiosPublic/useAxiosPublic";
 import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useGetUser from "../../../../hooks/getUser/useGetUser";
+import useGetUserAllProduct from "../../../../hooks/useGetUserAllProduct";
 
 const KeyCodes = {
   comma: 188,
@@ -34,9 +36,14 @@ const delimiters = [KeyCodes.comma, KeyCodes.SPACE, KeyCodes.enter];
 
 const image_hosting_key = import.meta.env.VITE_IMG_HOST;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+
 const AddProduct = () => {
+  const [currentUser]= useGetUser()
+  const [myProducts] = useGetUserAllProduct()
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
+  const [err, setErr]= useState("")
   const [imageFile, setImageFile] = useState("");
   const { user } = useAuth();
   const navigate = useNavigate()
@@ -68,13 +75,16 @@ const AddProduct = () => {
   };
 
   //   product form
-  console.log(imageFile);
+  // console.log(myProducts);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErr("")
+    if(myProducts.length===1&& currentUser.status!=="Verified"){
+      setErr("Please buy PREMIUM MEMBERSHIP then post product")
+      return 
+    }
     const data = new FormData(event.currentTarget);
     const productName = data.get("productName");
-    // const productImage = imageFile;
-    // data.get("productPhoto");
     const productDescription = data.get("productDescription");
     const links = data.get("external_Links");
     const name = user?.displayName;
@@ -210,6 +220,9 @@ const AddProduct = () => {
             </Grid>
           </Grid>
         </Container>
+        <Typography sx={{textAlign:"center", mt:"20px", color:"red"}}>
+          {err}
+        </Typography>
         <Container>
           <Button
             type="submit"

@@ -37,11 +37,7 @@ const OtherSignin = () => {
   return (
     <Container>
       {/* <Divider variant="middle" mt={3}/> */}
-      <Grid container justifyContent="flex-center">
-        <Typography component="h6" variant="h6" textAlign="center">
-          or
-        </Typography>
-      </Grid>
+      
       <Grid container justifyContent="flex-center">
         <Grid item xs={12}>
           <Button

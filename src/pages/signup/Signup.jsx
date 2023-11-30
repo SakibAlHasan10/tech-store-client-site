@@ -199,7 +199,7 @@ const Signup = () => {
             </Link>
           </Grid>
         </Grid>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt: 5, mb:"20px" }} />
       </Container>
     </ThemeProvider>
   );

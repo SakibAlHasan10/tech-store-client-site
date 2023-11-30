@@ -12,7 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import useAuth from "../../../../hooks/authHook/useAuth";
+// import useAuth from "../../../../hooks/authHook/useAuth";
 import useGetUserAllProduct from "../../../../hooks/useGetUserAllProduct";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,12 +36,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const MyProducts = () => {
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
-  const email = user?.email;
-  console.log(email);
+  // const { user } = useAuth();
+  // const email = user?.email;
+  // console.log(email);
   // const [allProduct, , refetch] = useAllProduct();
   const [myProducts, , refetch] = useGetUserAllProduct();
-  console.log(myProducts);
+  // console.log(myProducts);
   // product deleted
   const handleDeleteProduct = async (id) => {
     axiosSecure.delete(`/products/${id}`).then((res) => {

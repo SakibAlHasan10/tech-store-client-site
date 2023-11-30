@@ -70,14 +70,11 @@ ListItemLink.propTypes = {
 //     </Typography>
 //   );
 // }
-let userRole;
+// let userRole;
 const DashboardRoute = () => {
   const [currentUser] = useGetUser();
   const { role } = currentUser;
-  console.log(role);
-  // if(role==="Admin"){
-
-  // }
+  // console.log(role);
   return (
     // <Router>
     <Box sx={{ width: 360 }}>

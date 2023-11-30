@@ -45,9 +45,15 @@ const UpdateProduct = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [tags, setTags] = useState([]);
-  console.log(singleProduct);
-  const { productName, productDescription, productImage,status, vote, links, featured, tags:like } =
-    singleProduct;
+  // console.log(singleProduct);
+  const {
+    productName: productName1,
+    productDescription,
+    productImage,
+    links: links1,
+    tags: like,
+    _id,
+  } = singleProduct;
   const handleFile = (e) => {
     setImageFile(e.target.files[0]);
   };
@@ -75,14 +81,13 @@ const UpdateProduct = () => {
   };
 
   //   product form
-  console.log(imageFile || "hello");
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const productName = data.get("productName") || productName;
+    const productName = data.get("productName") || productName1;
     const productDescription =
       data.get("productDescription") || productDescription;
-    const links = data.get("external_Links") || links;
+    const links = data.get("external_Links") || links1;
     const name = user?.displayName;
     const email = user?.email;
     const photo = user.photoURL;
@@ -102,38 +107,32 @@ const UpdateProduct = () => {
           productName,
           productDescription,
           links,
-          featured: featured || false,
-          status: status||"Pending",
-          vote: vote,
           productImage: res.data.data.display_url || "Not available",
-          tags:tags||like,
+          tags: tags.length === 0 ? like : tags,
           owner: { name, email, photo },
         };
-        console.log(product);
-        // const pro = await axiosSecure.post("/products", product);
-        // if (pro.statusText === "OK") {
-        //   toast.success("Product saved successfully");
-        //   navigate("/dashboard/my-products");
-        // }
+        const pro = await axiosSecure.patch(`/products/${_id}`, product);
+        console.log(pro, "ttttttttt");
+        if (pro.statusText === "OK") {
+          toast.success("Product saved successfully");
+          navigate("/dashboard/my-products");
+        }
       }
     } else {
       const product = {
         productName,
         productDescription,
         links,
-        featured: false,
-        status: "Pending",
-        vote: 0,
         productImage: productImage,
-        tags:tags||like,
+        tags: tags.length === 0 ? like : tags,
         owner: { name, email, photo },
       };
-      console.log(product);
-      // const pro = await axiosSecure.post("/products", product);
-      // if (pro.statusText === "OK") {
-      //   toast.success("Product saved successfully");
-      //   navigate("/dashboard/my-products");
-      // }
+      const pro = await axiosSecure.patch(`/products/info/${_id}`, product);
+
+      if (pro.statusText === "OK") {
+        toast.success("Product saved successfully");
+        navigate("/dashboard/my-products");
+      }
     }
   };
   return (
@@ -151,7 +150,7 @@ const UpdateProduct = () => {
                 required
                 id="productName"
                 label="Product Name"
-                defaultValue={productName}
+                defaultValue={productName1}
                 name="productName"
               />
             </Grid>
@@ -169,6 +168,11 @@ const UpdateProduct = () => {
               />
             </Grid>
             <Grid item xs={12} sx={{ color: "#000" }}>
+              {like?.map((t) => (
+                <Typography sx={{ mr: "4px" }} key={t.id}>
+                  {"#" + t.text}
+                </Typography>
+              ))}
               <ReactTags
                 tags={tags}
                 // suggestions={suggestions}
@@ -233,7 +237,7 @@ const UpdateProduct = () => {
                 label="Add External Links"
                 required
                 name="external_Links"
-                defaultValue={links}
+                defaultValue={links1}
                 fullWidth
               />
             </Grid>

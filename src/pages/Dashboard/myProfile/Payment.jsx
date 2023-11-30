@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 const style = {
   position: "absolute",
@@ -21,7 +20,6 @@ import useAxiosSecure from "../../../hooks/axiosSecure/useAxiosSecure";
 import useAuth from "../../../hooks/authHook/useAuth";
 import { Button } from "@mui/material";
 import toast from "react-hot-toast";
-import useGetAllUser from "../../../hooks/getAllUser/useGetAllUser";
 const Payment = ({ open, setOpen, id }) => {
   const handleClose = () => setOpen(false);
   const axiosSecure = useAxiosSecure();
@@ -31,19 +29,9 @@ const Payment = ({ open, setOpen, id }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
-  const email = user?.email;
-  // const { data: items = [] } = useQuery({
-  //   queryKey: ["price", email],
-  //   queryFn: async () => {
-  //     const res = await axiosSecure.get(`/cards/${email}`);
-  //     return res.data;
-  //   },
-  // });
-  // const total = items.reduce((pre, item) => pre + item.price, 0);
-  //   console.log(total)
   useEffect(() => {
     axiosSecure.post("/create-payment-intent", { price: 20 }).then((res) => {
-      console.log(res.data.clientSecret);
+      // console.log(res.data.clientSecret);
       setClientSecret(res.data.clientSecret);
     });
   }, [axiosSecure]);
@@ -149,5 +137,6 @@ const Payment = ({ open, setOpen, id }) => {
 Payment.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
+  id: PropTypes.string,
 };
 export default Payment;
