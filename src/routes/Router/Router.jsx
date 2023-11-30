@@ -17,12 +17,14 @@ import UpdateProduct from "../../pages/Dashboard/User/myProducts/updateProduct";
 import ManageUser from "../../pages/Dashboard/Admin/manageUser/ManageUser";
 import AdminPrivateRoute from "../adminPrivateRoute/AdminPrivateRoute";
 import ErrorPage from "../../layout/roots/ErrorPage";
+import StatisticsPage from "../../pages/Dashboard/Admin/StatisticsPage/StatisticsPage";
+import ManageCoupon from "../../pages/Dashboard/Admin/ManageCoupon/ManageCoupon";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Roots />,
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -119,6 +121,26 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <AdminPrivateRoute>
               <ManageUser />
+            </AdminPrivateRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manage-coupon",
+        element: (
+          <PrivateRoute>
+            <AdminPrivateRoute>
+              <ManageCoupon />
+            </AdminPrivateRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "statistics",
+        element: (
+          <PrivateRoute>
+            <AdminPrivateRoute>
+              <StatisticsPage />
             </AdminPrivateRoute>
           </PrivateRoute>
         ),

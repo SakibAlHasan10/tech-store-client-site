@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import List from "@mui/material/List";
 import Box from "@mui/material/Box";
 import ListItem from "@mui/material/ListItem";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Paper from "@mui/material/Paper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link as RouterLink, MemoryRouter } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
-import { ProductionQuantityLimits } from "@mui/icons-material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 function Router(props) {
   const { children } = props;
@@ -62,14 +63,20 @@ const AdminRoute = () => {
             icon={<AccountBoxIcon />}
           />
           <ListItemLink
-            to="/dashboard/manage-user"
-            primary="Add Products"
-            icon={<ManageAccountsIcon />}
+            to="/dashboard/statistics"
+            primary="Admin Statistics"
+            icon={<AutoGraphIcon />}
           />
           <ListItemLink
-            to="/dashboard/my-products"
-            primary="My Products"
-            icon={<ProductionQuantityLimits />}
+            to="/dashboard/manage-user"
+            primary="Manage Users"
+            icon={<ManageAccountsIcon />}
+          />
+
+          <ListItemLink
+            to="/dashboard/manage-coupon"
+            primary="Manage Coupon"
+            icon={<LocalOfferIcon />}
           />
         </List>
       </Paper>

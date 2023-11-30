@@ -1,21 +1,35 @@
-import { useContext } from "react";
-import { myContext } from "../../RootPages/RootPages";
-import { getLocalStorageData } from "../../Utility/StorageData";
+
 import { PieChart, Pie, Cell } from "recharts";
-const Statistics = () => {
-  const allCategory = useContext(myContext);
-  const localStorData = getLocalStorageData();
-  const totalDonation = allCategory.length;
-  const filterLocalData = allCategory.filter((data) =>
-    localStorData.includes(data.id)
-  );
-  const yourDonation = filterLocalData.length;
+import useGetAllUser from "../../../../hooks/getAllUser/useGetAllUser";
+import useAllProduct from "../../../../hooks/fetchaAlProduct/useAllProduct";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
+const StatisticsPage = () => {
+  const [allUser]=useGetAllUser()
+  const [allProduct]=useAllProduct()
+  const axiosSecure = useAxiosSecure()
+  // get review
+  const { data: allReviews = [] } = useQuery({
+    queryKey: ["allReview",],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/review`);
+
+      return res?.data;
+    },
+  });
+
+  const totalReview = allReviews?.length;
+  const totalUser = allUser?.length;
+  const totalProduct = allProduct?.length
   const data = [
-    { name: "Total Donation", value: totalDonation - yourDonation },
-    { name: "Your Donation", value: yourDonation },
+    { name: "Total Users", value: totalUser},
+    { name: "Total Products", value: totalProduct },
+    { name: "Total Reviews", value: totalReview},
   ];
-  // console.log(data, totalDonation, yourDonation);
-  const COLORS = ["#e65007", "#00C49F"];
+  
+  
+
+  const COLORS = ['#0088FE', '#00C49F', '#FF8042'];
 
   const RADIAN = Math.PI / 180;
   // console.log(RADIAN*180)
@@ -39,12 +53,13 @@ const Statistics = () => {
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
-        {`${(percent * 100).toFixed(2)}%`}
+        {`${(percent * 100).toFixed(0)}%`}
       </text>
     );
   };
   return (
     <div className="max-w-screen-xl mx-auto md:px-8 mb-10 pb-16">
+      hello
       <PieChart width={400} height={400} className="mx-auto  ">
         <Pie
           data={data}
@@ -64,15 +79,21 @@ const Statistics = () => {
       <div className="flex">
         <div className="md:flex gap-10 mx-auto justify-center">
           <div className="flex items-center gap-3">
-            <p className="text-lg font-normal">Your Donation</p>
+            <p className="text-lg font-normal">Total Users: {totalUser}</p>
+            <span className="bg-[#0088FE] w-20 h-2"></span>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="text-lg font-normal">Total Products: {totalProduct}</p>
             <span className="bg-[#00C49F] w-20 h-2"></span>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-lg font-normal">Total Donation</p>
-            <span className="bg-[#e65007] w-20 h-2"></span>
+            <p className="text-lg font-normal">Total Reviews: {totalReview}</p>
+            <span className="bg-[#FF8042] w-20 h-2"></span>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default StatisticsPage;

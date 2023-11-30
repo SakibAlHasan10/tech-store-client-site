@@ -105,7 +105,7 @@ const FeaturedCard = ({ prod }) => {
               >
                 <ThumbDownOffAltIcon />
               </IconButton>
-              {like}
+              {0}
             </Grid>
           </Grid>
         </Grid>

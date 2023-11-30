@@ -79,7 +79,7 @@ const AddProduct = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErr("")
-    if(myProducts.length===1&& currentUser.status!=="Verified"){
+    if(myProducts.length===1&& currentUser.status!=="verified"){
       setErr("Please buy PREMIUM MEMBERSHIP then post product")
       return 
     }

@@ -53,20 +53,20 @@ const ProductDetails = () => {
   const { isLoading, data: productReviews = [] } = useQuery({
     queryKey: ["review", _id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/reviews/${_id}`);
+      const res = await axiosSecure.get(`/review?id=${_id}`);
 
       return res?.data;
     },
   });
   if (isLoading) {
-    return <p>loading...</p>;
+    return <p className="text-center mt-10">loading...</p>;
   }
 
   // console.log(productReviews);
   const handleProductReport = (id) => {
     const status = { report: true };
     axiosSecure.patch(`/products/${id}`, status).then((res) => {
-        console.log(id, res.data);
+      console.log(id, res.data);
 
       if (res.data._id) {
         toast.success("your report successfully");
@@ -82,9 +82,16 @@ const ProductDetails = () => {
           mt={10}
           sx={{ p: 5, borderRadius: "15px", pt: 10 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: "800", background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
-    WebkitBackgroundClip: "text",
-    color: "transparent", }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: "800",
+              background: "linear-gradient(to right bottom, #1962A6, #6EB846)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+            }}
+          >
             {productName}
           </Typography>
           <Typography
@@ -107,9 +114,7 @@ const ProductDetails = () => {
               {like}
             </Grid>
             <Grid item>
-              <IconButton 
-              onClick={()=>handleProductReport(_id)}
-              >
+              <IconButton onClick={() => handleProductReport(_id)}>
                 <ReportIcon />
               </IconButton>
             </Grid>
@@ -133,15 +138,24 @@ const ProductDetails = () => {
           <Grid pl={1} mt={2}>
             <Button onClick={handleOpen}>Add Review</Button>
           </Grid>
-          <Typography variant="h5" pl={2} my={4} sx={{textAlign:"center", background: 'linear-gradient(to right bottom, #1962A6, #6EB846)', backgroundClip: "text",
-    WebkitBackgroundClip: "text",
-    color: "transparent",}}>
+          <Typography
+            variant="h5"
+            pl={2}
+            my={4}
+            sx={{
+              textAlign: "center",
+              background: "linear-gradient(to right bottom, #1962A6, #6EB846)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+            }}
+          >
             TESTIMONIALS
           </Typography>
-          {productReviews.length > 0 ? (
+          {productReviews?.length > 0 ? (
             <AllReviews productReviews={productReviews} />
           ) : (
-            <Typography variant="body2"  my={10} sx={{textAlign:"center"}}>
+            <Typography variant="body2" my={10} sx={{ textAlign: "center" }}>
               This product review not available
             </Typography>
           )}

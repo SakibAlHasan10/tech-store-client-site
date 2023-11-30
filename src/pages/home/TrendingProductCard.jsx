@@ -104,7 +104,7 @@ const TrendingProductCard = ({ prod }) => {
               >
                 <ThumbDownOffAltIcon />
               </IconButton>
-              {like}
+              {0}
             </Grid>
           </Grid>
         </Grid>

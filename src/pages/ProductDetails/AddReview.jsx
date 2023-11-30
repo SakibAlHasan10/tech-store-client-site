@@ -38,7 +38,7 @@ const AddReview = ({ open, setOpen, id }) => {
       description,
       rating: parseFloat(rating),
     };
-    console.log(typeof parseFloat(rating));
+    // console.log(typeof parseFloat(rating));
     const pro = await axiosSecure.post("/reviews", review);
     if (pro.statusText === "OK") {
       toast.success("your reviews successfully");
