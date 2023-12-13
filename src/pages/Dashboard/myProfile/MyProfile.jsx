@@ -57,14 +57,14 @@ const MyProfile = () => {
         )}
         
         <Typography component="" mt={1} variant="h6" sx={{ fontWeight: "700" }}>
-          name: {name}
+          Name: {name}
         </Typography>
         
         <Typography component="" my={1} variant="body1" sx={{ fontWeight: "600" }}>
-          email: {email}
+          Email: {email}
         </Typography>
         <Typography component="" my={1} variant="body2" sx={{ fontWeight: "600" }}>
-          Your role: {role}
+          Your Role: {role}
         </Typography>
         {isNonVerified && (
           <Button variant="contained" sx={ {my:"10px"}} onClick={handleOpen}>

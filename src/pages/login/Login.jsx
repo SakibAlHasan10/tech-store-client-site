@@ -32,10 +32,9 @@ const Login = () => {
       >
         {"Copyright © "}
         <Link color="inherit" href="https://mui.com/">
-          TechStor
-        </Link>{" "}
+          TechStore
+        </Link>
         {new Date().getFullYear()}
-        {"."}
       </Typography>
     );
   }

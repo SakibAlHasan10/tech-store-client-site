@@ -10,6 +10,7 @@ const useGetUser = () => {
         data: currentUser = {},
       } = useQuery({
         queryKey: ["singleUser", user?.email ],
+        
         queryFn: async () => {
           const res = await axiosSecure.get(`/users/${user?.email}`);
     

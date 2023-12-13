@@ -7,6 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import CreateCoupon from "./CreateCoupon";
 // import useAxiosSecure from "../../../../hooks/axiosSecure/useAxiosSecure";
 // import toast from "react-hot-toast";
 // import useGetAllUser from "../../../../hooks/getAllUser/useGetAllUser";
@@ -32,34 +34,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ManageCoupon = () => {
-//   const axiosSecure = useAxiosSecure();
-//   const [allUser, , refetch] = useGetAllUser();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  //   const axiosSecure = useAxiosSecure();
+  //   const [allUser, , refetch] = useGetAllUser();
   //   console.log(allUser);
 
   //   product status accept
-//   const handleUserMakeModerator = (id) => {
-//     const role = { role: "Moderator" };
-//     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
-//       //   console.log(id, res.data);
+  //   const handleUserMakeModerator = (id) => {
+  //     const role = { role: "Moderator" };
+  //     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
+  //       //   console.log(id, res.data);
 
-//       if (res.data._id) {
-//         toast.success("Product accepted successfully");
-//         refetch();
-//       }
-//     });
-//   };
+  //       if (res.data._id) {
+  //         toast.success("Product accepted successfully");
+  //         refetch();
+  //       }
+  //     });
+  //   };
   //   product status reject
-//   const handleUserMakeAdmin = (id) => {
-//     const role = { role: "Admin" };
-//     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
-//       //   console.log(id, res.data);
+  //   const handleUserMakeAdmin = (id) => {
+  //     const role = { role: "Admin" };
+  //     axiosSecure.patch(`/user/role/${id}`, role).then((res) => {
+  //       //   console.log(id, res.data);
 
-//       if (res.data._id) {
-//         toast.success("Product rejected successfully");
-//         refetch();
-//       }
-//     });
-//   };
+  //       if (res.data._id) {
+  //         toast.success("Product rejected successfully");
+  //         refetch();
+  //       }
+  //     });
+  //   };
   //   product status reject
   //   const handleProductFeatured = (id) => {
   //     const featured = { featured: true };
@@ -72,13 +76,12 @@ const ManageCoupon = () => {
   //     });
   //   };
   return (
-    <div >
+    <div>
       <div className="flex justify-between px-5 items-center my-3">
         <div className="text-2xl">Total Coupon:</div>
         <div>
-            <Button sx={{fontSize:"18px"}}>
-                create new coupon
-            </Button>
+          {/* <Button sx={{ fontSize: "18px" }}>create new coupon</Button> */}
+          <Button sx={{ fontSize: "18px" }} onClick={handleOpen}>create new coupon</Button>
         </div>
       </div>
       <TableContainer component={Paper}>
@@ -95,28 +98,25 @@ const ManageCoupon = () => {
           </TableHead>
           <TableBody>
             {/* {allUser.map((user, idx) => ( */}
-              <StyledTableRow 
+            <StyledTableRow
             //   key={user._id}
-              >
-                <StyledTableCell align="center">
-                    {/* {idx + 1} */}
-                    </StyledTableCell>
-                <StyledTableCell align="left" component="th" scope="row">
-                  {/* {user.name} */}
-                </StyledTableCell>
-                <StyledTableCell align="left"></StyledTableCell>
-                <StyledTableCell align="center"></StyledTableCell>
-                <StyledTableCell align="center">
-                  
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  
-                </StyledTableCell>
-              </StyledTableRow>
+            >
+              <StyledTableCell align="center">
+                {/* {idx + 1} */}
+              </StyledTableCell>
+              <StyledTableCell align="left" component="th" scope="row">
+                {/* {user.name} */}
+              </StyledTableCell>
+              <StyledTableCell align="left"></StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
+            </StyledTableRow>
             {/* ))} */}
           </TableBody>
         </Table>
       </TableContainer>
+        <CreateCoupon open={open} setOpen={setOpen} />
     </div>
   );
 };

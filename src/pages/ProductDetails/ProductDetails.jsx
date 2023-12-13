@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import useSingleProduct from "../../hooks/fetchSingleProduct/useSingleProduct";
 import {
   Box,
@@ -174,8 +174,9 @@ const ProductDetails = () => {
               </Typography>
             ))}
           </Grid>
-          <Typography pl={2} mt={2} sx={{ "&:hover": "underline" }}>
-            Links:<NavLink>{links}</NavLink>
+          <Typography pl={2} mt={2} sx={{color:"blue", "&:hover":{color:"orange"} }}>
+            {/* Links:<NavLink>{links}</NavLink> */}
+            Links: <Link target="_blank" to={links}>Go to External link</Link>
           </Typography>
           <Grid pl={1} mt={2}>
             <Button onClick={handleOpen}>Add Review</Button>

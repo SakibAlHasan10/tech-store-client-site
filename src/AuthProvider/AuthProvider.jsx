@@ -50,11 +50,16 @@ const AuthProvider = ({ children }) => {
         // TODO: add sever site
         axiosPrivate.post("/jwt", loggedUser).then(() => {
           // console.log(res.data)
+          // setUser(currentUser);
+          // setIsLoading(false);
         });
       } else {
         axiosPrivate.post("/logout", loggedUser).then(() => {
           // console.log(res.data)
         });
+        // .finally(() => {
+        //   setIsLoading(false);
+        // });
       }
     });
     return () => {

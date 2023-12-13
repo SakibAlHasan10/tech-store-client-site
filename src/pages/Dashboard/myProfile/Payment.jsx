@@ -18,7 +18,7 @@ const style = {
 import PropTypes from "prop-types";
 import useAxiosSecure from "../../../hooks/axiosSecure/useAxiosSecure";
 import useAuth from "../../../hooks/authHook/useAuth";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import toast from "react-hot-toast";
 const Payment = ({ open, setOpen, id }) => {
   const handleClose = () => setOpen(false);
@@ -97,7 +97,12 @@ const Payment = ({ open, setOpen, id }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography
+            id="modal-modal-title"
+            sx={{ mb: "30px", textAlign: "center" }}
+            variant="h6"
+            component="h2"
+          >
             Text in a modal
           </Typography>
 
@@ -118,14 +123,31 @@ const Payment = ({ open, setOpen, id }) => {
                 },
               }}
             />
-            <Button
-              type="submit"
-              size="medium"
-              sx={{ color: "#02c39a" }}
-              disabled={!stripe || !clientSecret}
+            <Grid
+              container
+              justifyContent={"center"}
+              sx={{ textAlign: "center", mt: "50px" }}
             >
-              Pay
-            </Button>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  size="medium"
+                  sx={{
+                    color: "#fff",
+                    bgcolor: "#02c39a",
+                    mb:"20px",
+                    width: "100px",
+                    "&:hover": {
+                      bgcolor: "green",
+                    },
+                  }}
+                  disabled={!stripe || !clientSecret}
+                >
+                  Pay
+                </Button>
+              </Grid>
+            </Grid>
             <Typography sx={{ color: "#d62828" }}>{error}</Typography>
             <Typography sx={{ color: "#02c39a" }}>{transId}</Typography>
           </form>
