@@ -1,12 +1,16 @@
 # TechStore
+ ### (New Tech and Gadgets launching)
+
+### [Live link](https://creative-technology-f4fea.web.app)
 
 
-- [TechStore live link:](https://creative-technology-f4fea.web.app)
+## Features
+- TechStore is a Full-Stack-Application. Where the user will find many feathers. Users can create an account with
+  their email and password or with Google.
+- JWT Token and Firebase are used for authentication and Stripe is used for the payment system.
+- Dashboard is implemented in this project. dashboard has an admin moderator and user section where the user
+through payment is displayed as a verified user and a non-verified user.
+ <br/><br/>
 
-- This app uses user see tech related product.
-- This app uses user upload tech product.
-- This app using user upVote and downVote other user product.
-- This app uses user can free or premium version.
-- This app uses admin change user role as admin/moderator.
-- This app uses moderator can flow users uploded product.  
-- Moderator can change product status.  
+## Technology
+#### React.js | Mongoose | Firebase | Stripe | Material UI | Tailwindcss | Vercel | Node.js |
